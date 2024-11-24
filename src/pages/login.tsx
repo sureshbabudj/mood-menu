@@ -20,7 +20,7 @@ export default function Login() {
         <h3 className="text-small text-center mb-4 text-primary">
           or SignIn with
         </h3>
-        <div className=" flex flex-row space-x-4">
+        <div className=" flex flex-row space-x-4 justify-around">
           <GoogleSignIn isLoading={isLoading} setIsLoading={setIsLoading} />
           <GithubLogin isLoading={isLoading} setIsLoading={setIsLoading} />
           <FacebookLogin isLoading={isLoading} setIsLoading={setIsLoading} />

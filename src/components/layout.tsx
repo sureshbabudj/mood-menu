@@ -33,7 +33,6 @@ export default function Layout() {
     };
   }, []);
 
-  // padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   const defaultHeight = `100dvh - env(safe-area-inset-top) - env(safe-area-inset-top)`;
   return (
     <>

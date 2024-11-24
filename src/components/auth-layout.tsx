@@ -1,6 +1,8 @@
+import { sessionAtom } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { useAtomValue } from "jotai";
 import * as React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export function AuthLayoutTitle({
   children = (
@@ -12,6 +14,14 @@ export function AuthLayoutTitle({
   className,
   ...props
 }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const session = useAtomValue(sessionAtom);
+  if (session?.user && location.pathname === "/login") {
+    navigate("/");
+    return null;
+  }
+
   return (
     <div className={cn("space-y-4", className)} {...props}>
       <img

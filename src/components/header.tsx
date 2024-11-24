@@ -14,7 +14,7 @@ const Header = ({
 }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const ses = useAtomValue(sessionAtom);
+  const session = useAtomValue(sessionAtom);
   const isHomePage = location.pathname === "/";
   return (
     <header className={cn("p-2 py-4 mx-auto", className)} {...props}>
@@ -51,7 +51,7 @@ const Header = ({
           <div className="sm:text-right">
             <Greeting />
             <h3 className="text-xl font-semibold">
-              {ses ? ses.user.email : "Guest"}
+              {session?.user.email ?? "Guest"}
             </h3>
           </div>
         )}
