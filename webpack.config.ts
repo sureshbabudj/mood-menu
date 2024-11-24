@@ -1,9 +1,13 @@
 import path from "path";
-import { Configuration } from "webpack";
+import { Configuration, DefinePlugin } from "webpack";
 import * as webpackDevServer from "webpack-dev-server";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import { merge } from "webpack-merge";
+import dotenv from "dotenv";
+
+const env = dotenv.config({ path: path.resolve(__dirname, ".env") });
+console.log(JSON.stringify(env.parsed, null, 2));
 
 // Common configuration
 const commonConfig: Configuration = {
@@ -64,6 +68,9 @@ const commonConfig: Configuration = {
     new HTMLWebpackPlugin({
       template: "./src/index.html", //source
       filename: "index.html", //destination
+    }),
+    new DefinePlugin({
+      "process.env": JSON.stringify(env.parsed),
     }),
   ],
 };

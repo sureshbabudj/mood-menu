@@ -6,21 +6,18 @@ import Recipes from "@/pages/recipes";
 import Layout from "@/components/layout";
 import Recipe from "@/pages/recipe";
 import Information from "@/pages/info";
-import { Favorites } from "@/pages/favorites";
+import Favorites from "@/pages/favorites";
 import GoogleSignInPage from "@/pages/sync";
-import { Login } from "@/pages/login";
+import Login from "@/pages/login";
+import ForgotPassword from "@/pages/forgot-password";
 
 import { store } from "@/lib/store";
-import useAuth from "@/hooks/use-auth";
+import { AuthLayout } from "./components/auth-layout";
+import ProtectedRoute from "./components/protected-route";
 
 function NotFound() {
   return <div>404 Not Found</div>;
 }
-
-const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
-  const user = useAuth();
-  return user ? element : null;
-};
 
 const routes = [
   {
@@ -54,7 +51,13 @@ const routes = [
   },
   {
     path: "/login",
+    element: <AuthLayout />,
     children: [{ index: true, element: <Login /> }],
+  },
+  {
+    path: "/forgot-password",
+    element: <ProtectedRoute element={<AuthLayout />} />,
+    children: [{ index: true, element: <ForgotPassword /> }],
   },
   {
     path: "/*",

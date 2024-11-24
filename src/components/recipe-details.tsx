@@ -75,7 +75,7 @@ export default function RecipeDetails({
 }: RecipeDetailsProps) {
   const ingredients = processRecipeIngredients(recipe);
   return (
-    <>
+    <div className="container mx-auto">
       <div
         className={cn(
           "max-sm:relative max-sm:overflow-hidden flex max-sm:flex-col-reverse sm:flex-row justify-between mb-8",
@@ -111,6 +111,6 @@ export default function RecipeDetails({
         <p className="mb-6 whitespace-pre-line">{recipe.strInstructions}</p>
         {recipe.strYoutube && <EmbedYouTube videoUrl={recipe.strYoutube} />}
       </div>
-    </>
+    </div>
   );
 }

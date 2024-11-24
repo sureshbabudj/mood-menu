@@ -4,7 +4,7 @@ import { favoritesAtom, getFavorites } from "@/lib/store";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
-export function Favorites() {
+export default function Favorites() {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
 
   const fetchFavorites = async () => {
