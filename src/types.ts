@@ -33,3 +33,9 @@ export interface Wt {
   hK: string;
   cu: string;
 }
+
+export interface Recipe {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+}

@@ -1,15 +1,31 @@
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+
 import { RecipeList } from "@/components/recipe-list";
 import { Button } from "@/components/ui/button";
-import { favoritesAtom, getFavorites } from "@/lib/store";
-import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { toast } from "@/hooks/use-toast";
+import { favoritesAtom } from "@/lib/store";
+import { supabase } from "@/lib/supabaseClient";
+import { Recipe } from "@/types";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
 
   const fetchFavorites = async () => {
-    const fav = await getFavorites();
-    setFavorites(fav);
+    try {
+      const { data, error } = await supabase.from("recipe").select("*");
+      if (error) {
+        throw error;
+      } else {
+        setFavorites(data as Recipe[]);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error:",
+        description:
+          error.message || error.description || "Error in fetching favorites",
+      });
+    }
   };
 
   useEffect(() => {

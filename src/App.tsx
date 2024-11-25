@@ -4,7 +4,6 @@ import {
   Route,
   Routes,
   useLocation,
-  useNavigate,
 } from "react-router-dom";
 import { Provider, useAtom } from "jotai";
 
@@ -14,7 +13,6 @@ import Layout from "@/components/layout";
 import Recipe from "@/pages/recipe";
 import Information from "@/pages/info";
 import Favorites from "@/pages/favorites";
-import GoogleSignInPage from "@/pages/sync";
 import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
 
@@ -82,7 +80,6 @@ function AppRouter() {
         <Route path="recipes" element={<Recipes />} />
         <Route path="recipes/:id" element={<Recipe />} />
         <Route path="favorites" element={<Favorites />} />
-        <Route path="sync" element={<GoogleSignInPage />} />
       </Route>{" "}
       <Route
         path="/forgot-password"

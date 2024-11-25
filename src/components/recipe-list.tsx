@@ -1,42 +1,48 @@
-import { Recipe } from "@/orm/entities/recipe";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { Button } from "./ui/button";
-import { Heart } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import recipeDataSource from "@/orm/datasources/recipeDataSource";
 import { HeartIcon } from "./bottom-nav-bar";
-import { useAtom } from "jotai";
-import { favoritesAtom, getFavorites } from "@/lib/store";
-import { useEffect } from "react";
+import { useAtom, useAtomValue } from "jotai";
+import { favoritesAtom, sessionAtom } from "@/lib/store";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { Recipe } from "@/types";
+import { cn } from "@/lib/utils";
 
 export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
-
-  const connection = recipeDataSource.dataSource;
+  const [favLoading, setFavLoading] = useState("");
+  const session = useAtomValue(sessionAtom);
 
   const markFavorite = async (recipe: Recipe) => {
     try {
-      const newFav = new Recipe();
-      newFav.idMeal = recipe.idMeal;
-      newFav.strMeal = recipe.strMeal;
-      newFav.strMealThumb = recipe.strMealThumb;
-      await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Recipe)
-        .values([newFav])
-        .execute();
+      const user = session?.user;
+      const userId = user?.id;
+
+      if (!userId) {
+        throw new Error("User not authenticated");
+      }
+      const { data, error } = await supabase
+        .from("recipe")
+        .upsert({
+          idMeal: recipe.idMeal,
+          strMeal: recipe.strMeal,
+          strMealThumb: recipe.strMealThumb,
+          user_id: userId,
+        })
+        .select("*");
+
+      if (error)
+        throw new Error("Error marking the recipe as favorite:", error);
+
+      setFavorites((prev) => (prev ? [...prev, ...data] : data));
+
       toast({
         title: "Success:",
         description:
           recipe.strMeal + " Recipe added to favorites successfully!",
       });
-      if (favorites === null) {
-        const favorites = await getFavorites();
-        setFavorites(favorites);
-      } else {
-        setFavorites([...favorites, newFav]);
-      }
     } catch (error: any) {
       toast({
         title: "Error:",
@@ -44,26 +50,25 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
         description:
           error.message || "Internal Error while adding your favorite recipe",
       });
+    } finally {
+      setFavLoading("");
     }
   };
 
   const removeFavorite = async (recipe: Recipe) => {
     try {
-      const removed = await connection
-        .getRepository(Recipe)
-        .delete(recipe.idMeal);
-      if (removed.affected === 0) {
+      const { error } = await supabase
+        .from("recipe")
+        .delete()
+        .eq("idMeal", recipe.idMeal);
+
+      if (error) {
         throw new Error(
           `Failed to remove the favorite recipe bearing id ${recipe.idMeal}`
         );
       }
-      if (favorites === null) {
-        const favorites = await getFavorites();
-        setFavorites(favorites);
-      } else {
-        const temp = favorites.filter((item) => item.idMeal !== recipe.idMeal);
-        setFavorites(temp);
-      }
+
+      await fetchFavorites();
 
       toast({
         title: "Success:",
@@ -75,12 +80,24 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
         variant: "destructive",
         description: error.message || "Something went wrong!",
       });
+    } finally {
+      setFavLoading("");
     }
   };
 
   const fetchFavorites = async () => {
-    const fav = await getFavorites();
-    setFavorites(fav);
+    try {
+      const { data, error } = await supabase.from("recipe").select("*");
+      if (error) throw error;
+      setFavorites(data as Recipe[]);
+    } catch (error: any) {
+      setFavorites([] as Recipe[]);
+      toast({
+        title: "Error:",
+        variant: "destructive",
+        description: error.message || "Something went wrong!",
+      });
+    }
   };
 
   useEffect(() => {
@@ -96,6 +113,7 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
           const isFav = favorites.find(
             ({ idMeal }) => recipe.idMeal === idMeal
           );
+          const FavIcon = isFav ? HeartIcon : Heart;
           return (
             <a
               title={recipe.strMeal}
@@ -118,18 +136,27 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
                   variant="ghost"
                   onClick={(e) => {
                     e.preventDefault();
+                    setFavLoading(recipe.idMeal);
                     !isFav ? markFavorite(recipe) : removeFavorite(recipe);
                   }}
                 >
-                  {isFav ? (
-                    <HeartIcon
-                      width={12}
-                      height={12}
-                      className="text-pink-600"
-                    />
-                  ) : (
-                    <Heart width={12} height={12} />
-                  )}
+                  <>
+                    {favLoading === recipe.idMeal ? (
+                      <Loader2
+                        width={12}
+                        height={12}
+                        className="animate-spin"
+                      />
+                    ) : (
+                      <FavIcon
+                        width={12}
+                        height={12}
+                        className={cn("text-pink-600", {
+                          "pointer-events-none": favLoading,
+                        })}
+                      />
+                    )}
+                  </>
                 </Button>
               </div>
             </a>

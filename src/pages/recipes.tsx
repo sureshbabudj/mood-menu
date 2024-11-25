@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { moods } from "@/lib/data";
 import { getRandom } from "@/lib/utils";
-import { Recipe } from "@/orm/entities/recipe";
+import { Recipe } from "@/types";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 

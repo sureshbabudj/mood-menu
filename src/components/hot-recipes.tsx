@@ -7,7 +7,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Recipe } from "@/orm/entities/recipe";
+import { Recipe } from "@/types";
 
 type HotRecipesProps = React.HTMLAttributes<HTMLDivElement> & {
   recipes: Recipe[];
