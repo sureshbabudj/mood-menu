@@ -99,7 +99,7 @@ export default function Recipes() {
   }, [page]);
 
   return (
-    <div className="px-4 mb-2">
+    <div className="px-4 mb-2 container mx-auto">
       <h3>
         <span className="text-2xl font-sourgummy">Feeling {mood}?</span>
         <br />

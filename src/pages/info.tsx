@@ -178,27 +178,31 @@ const Credits = () => {
 
 const Disclaimer = () => {
   return (
-    <div className="py-4" id="disclaimer">
-      <h2 className="text-2xl font-bold mb-4">Disclaimer</h2>
-      <p>
-        This app is provided "as-is" without any guarantees of accuracy or
-        availability. We do not claim ownership of the recipe data or images
-        used. All rights remain with their respective owners.
-      </p>
-      <h2 className="text-2xl font-bold mb-4">Legal Information</h2>
-      <p>
-        MoodMenu adheres to the principles of the Creative Commons license for
-        non-commercial usage. For more details about these licenses, visit
-        <a href="https://creativecommons.org" className="text-blue-500">
-          Creative Commons
-        </a>
-        .
-      </p>
-      <p>
-        This app also complies with the open-source licenses of libraries and
-        APIs used. Ensure to review their specific licensing terms.
-      </p>
-    </div>
+    <>
+      <div className="py-4" id="disclaimer">
+        <h2 className="text-2xl font-bold mb-4">Disclaimer</h2>
+        <p>
+          This app is provided "as-is" without any guarantees of accuracy or
+          availability. We do not claim ownership of the recipe data or images
+          used. All rights remain with their respective owners.
+        </p>
+      </div>
+      <div className="py-4" id="legalInfo">
+        <h2 className="text-2xl font-bold mb-4">Legal Information</h2>
+        <p>
+          MoodMenu adheres to the principles of the Creative Commons license for
+          non-commercial usage. For more details about these licenses, visit{" "}
+          <a href="https://creativecommons.org" className="text-blue-500">
+            Creative Commons
+          </a>
+          .
+        </p>
+        <p>
+          This app also complies with the open-source licenses of libraries and
+          APIs used. Ensure to review their specific licensing terms.
+        </p>
+      </div>
+    </>
   );
 };
 
@@ -209,6 +213,7 @@ const Contact = () => {
       <p>
         For any queries or issues, feel free to contact me at
         <a href="mailto:sureshbabu.dj@gmail.com" className="text-blue-500">
+          {" "}
           sureshbabu.dj@gmail.com
         </a>
         .
@@ -220,7 +225,7 @@ const Contact = () => {
 const Information: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div className="p-4">
+    <div className="container mx-auto p-4">
       <div className="flex flex-row justify-between">
         <Button size="icon" onClick={() => navigate(-1)} variant="ghost">
           <ArrowLeft width={24} height={24} />

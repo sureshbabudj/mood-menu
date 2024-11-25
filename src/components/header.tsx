@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils";
 import Greeting from "./greeting";
-import { ChevronLeft, Heart, Info, Search } from "lucide-react";
+import { ChevronLeft, Info, LogOut, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeartIcon } from "./bottom-nav-bar";
-import { googleUserAtom } from "@/lib/store";
+import { sessionAtom } from "@/lib/store";
 import { useAtomValue } from "jotai";
+import { supabase } from "@/lib/supabaseClient";
 
 const Header = ({
   className,
@@ -13,7 +14,7 @@ const Header = ({
 }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = useAtomValue(googleUserAtom);
+  const session = useAtomValue(sessionAtom);
   const isHomePage = location.pathname === "/";
   return (
     <header className={cn("p-2 py-4 mx-auto", className)} {...props}>
@@ -50,7 +51,7 @@ const Header = ({
           <div className="sm:text-right">
             <Greeting />
             <h3 className="text-xl font-semibold">
-              {user ? user.wt.Ad : "Guest"}
+              {session?.user.email ?? "Guest"}
             </h3>
           </div>
         )}
@@ -79,6 +80,14 @@ const Header = ({
           <a href="/">
             <Search />
           </a>
+        </Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="text-destructive"
+          onClick={() => supabase.auth.signOut()}
+        >
+          <LogOut className="w-4 h-4" />
         </Button>
       </div>
     </header>

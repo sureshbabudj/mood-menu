@@ -3,21 +3,7 @@ import Header from "@/components/header";
 import { BottomNavBar } from "./bottom-nav-bar";
 import Footer from "./footer";
 import { useRef, useState, useEffect } from "react";
-
-function debounce<T extends (...args: any[]) => void>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
-  return function (...args: Parameters<T>) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+import { debounce } from "@/lib/utils";
 
 export default function Layout() {
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -47,6 +33,7 @@ export default function Layout() {
     };
   }, []);
 
+  const defaultHeight = `100dvh - env(safe-area-inset-top) - env(safe-area-inset-top)`;
   return (
     <>
       <div ref={headerRef}>
@@ -56,8 +43,8 @@ export default function Layout() {
         className="min-h-[var(--mobile-outlet-height)] max-sm:pb-[var(--bottom-bar-height)] sm:min-h-[var(--outlet-height)]"
         style={
           {
-            "--outlet-height": `calc(100dvh - ${containerHeight}px)`,
-            "--mobile-outlet-height": `calc(100dvh - ${mobileContainerHeight}px)`,
+            "--outlet-height": `calc(${defaultHeight} - ${containerHeight}px)`,
+            "--mobile-outlet-height": `calc(${defaultHeight} - ${mobileContainerHeight}px)`,
             "--bottom-bar-height": `${bottomNavBarRef.current?.offsetHeight}px`,
           } as React.CSSProperties
         }

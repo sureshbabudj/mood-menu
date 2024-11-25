@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { authenticateWithGoogle } from "@/lib/googleAuth";
 import { DB_NAME } from "@/orm/datasources/recipeDataSource";
 
 import { CapacitorSQLite } from "@capacitor-community/sqlite";
 import { useAtomValue } from "jotai";
-import { googleUserAtom } from "@/lib/store";
 
 export const exportDatabase = async (): Promise<Uint8Array> => {
   try {
@@ -68,13 +66,12 @@ export const uploadEncryptedDatabase = async (
 const GoogleSignInPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const googleUser = useAtomValue(googleUserAtom);
 
   const handleSignIn = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      await authenticateWithGoogle();
+      // await authenticateWithGoogle();
       // console.log("Bearer Token:", bearerToken);
       // const db = await exportDatabase();
       // await uploadEncryptedDatabase(bearerToken, "moodmenu", db);

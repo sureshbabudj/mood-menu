@@ -1,8 +1,7 @@
 import recipeDataSource from "@/orm/datasources/recipeDataSource";
 import { Recipe } from "@/orm/entities/recipe";
-import { GoogleUser } from "@/types";
 import { atom, createStore } from "jotai";
-import { getUserFromLocalStorage } from "./googleAuth";
+import { Session } from "@supabase/supabase-js";
 
 export async function getFavorites() {
   try {
@@ -16,7 +15,5 @@ export async function getFavorites() {
 }
 
 export const favoritesAtom = atom<Recipe[] | null>(null);
-export const googleUserAtom = atom<GoogleUser | null>(
-  getUserFromLocalStorage()
-);
+export const sessionAtom = atom<Session | null>(null);
 export const store = createStore();
