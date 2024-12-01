@@ -3,16 +3,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabaseClient";
+import { auth } from "@/lib/firebaseClient";
 import { cn } from "@/lib/utils";
+import { confirmPasswordReset } from "firebase/auth";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+  const [searchParams] = useSearchParams();
+  const oobCode = searchParams.get("oobCode");
+
+  if (!oobCode) {
+    return <Navigate to="/auth/login" />;
+  }
+
+  const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
     try {
@@ -32,12 +40,7 @@ export default function ForgotPassword() {
         throw new Error("Confirm the new password twice");
       }
 
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
-      if (error) {
-        throw error;
-      }
+      await confirmPasswordReset(auth, oobCode, newPassword);
       navigate("/");
     } catch (e: any) {
       toast({
@@ -60,7 +63,7 @@ export default function ForgotPassword() {
           <span className="font-sourgummy">MoodMenu</span>.
         </h2>
       </AuthLayoutTitle>
-      <form onSubmit={handleForgotPassword}>
+      <form onSubmit={handleResetPassword}>
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">New Password</Label>
@@ -78,7 +81,7 @@ export default function ForgotPassword() {
           </Button>
 
           <div className="my-4 text-center text-primary">
-            <a href="/login">Go back to login</a>
+            <a href="/auth/login">Go back to login</a>
           </div>
         </div>
       </form>

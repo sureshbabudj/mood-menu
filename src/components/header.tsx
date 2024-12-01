@@ -6,8 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { HeartIcon } from "./bottom-nav-bar";
 import { sessionAtom } from "@/lib/store";
 import { useAtomValue } from "jotai";
-import { supabase } from "@/lib/supabaseClient";
-
+import { auth } from "@/lib/firebaseClient";
 const Header = ({
   className,
   ...props
@@ -51,7 +50,7 @@ const Header = ({
           <div className="sm:text-right">
             <Greeting />
             <h3 className="text-xl font-semibold">
-              {session?.user.email ?? "Guest"}
+              {session?.user?.displayName ?? session?.user?.email ?? "Guest"}
             </h3>
           </div>
         )}
@@ -85,7 +84,7 @@ const Header = ({
           size="icon"
           variant="ghost"
           className="text-destructive"
-          onClick={() => supabase.auth.signOut()}
+          onClick={() => auth.signOut()}
         >
           <LogOut className="w-4 h-4" />
         </Button>

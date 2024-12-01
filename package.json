@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack serve --config webpack.config.ts --env development",
-    "build": "webpack --config webpack.config.ts --env production"
+    "dev": "webpack --watch --config webpack.config.ts --env development",
+    "build": "webpack --config webpack.config.ts --env production",
+    "serve": "firebase serve --only hosting --port 5890"
   },
   "keywords": [],
   "author": "",
@@ -24,12 +25,12 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
-    "@supabase/supabase-js": "^2.46.1",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.4.0",
     "embla-carousel-react": "^8.4.0",
+    "firebase": "^11.0.2",
     "jotai": "^2.10.2",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",

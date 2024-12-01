@@ -1,12 +1,18 @@
 import * as React from "react";
 
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabaseClient";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/firebaseClient";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+} from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
 
 export function SignInWithPassword({
   isLoading,
@@ -18,15 +24,13 @@ export function SignInWithPassword({
   const emailRef = React.useRef<any>(null);
 
   const forgotPassword = async () => {
-    const redirectTo = process.env.SUPABASE_REDIRECT_URL;
     try {
       const email = emailRef.current?.value;
-      const response = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo,
-      });
-      if (response.error) {
-        throw response.error;
-      }
+      const actionCodeSettings = {
+        url: `${process.env.HOST}/auth/forgot-password-success`,
+      };
+
+      await sendPasswordResetEmail(auth, email, actionCodeSettings);
       toast({
         description: "We have a sent a email to reset the password",
         title: "Success:",
@@ -57,13 +61,8 @@ export function SignInWithPassword({
         throw new Error("validation failed");
       }
 
-      const response = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (response.error) {
-        throw response.error;
-      }
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log({ response });
     } catch (e: any) {
       toast({
         description:
@@ -89,7 +88,7 @@ export function SignInWithPassword({
             ref={emailRef}
             required
           />
-        </div>{" "}
+        </div>
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
@@ -122,14 +121,10 @@ export function GoogleSignIn({
   const handleSignIn = async () => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: process.env.SUPABASE_REDIRECT_URL },
-      });
-      if (error) throw error;
-      if (data.url) {
-      }
-    } catch (err: any) {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithRedirect(auth, provider);
+      if (!result) throw new Error("Login Unsuccessful");
+    } catch (error: any) {
       toast({
         description: "Failed to sign in. Please try again.",
         title: "Error:",

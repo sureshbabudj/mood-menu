@@ -1,3 +1,5 @@
+import { User } from "firebase/auth";
+
 export interface GoogleUser {
   Ca: string;
   xc: Xc;
@@ -38,4 +40,13 @@ export interface Recipe {
   idMeal: string;
   strMeal: string;
   strMealThumb: string;
+}
+
+export interface Session {
+  isEmailUser: boolean;
+  isGoogleUser: boolean;
+  user: User | null;
+  ready: boolean;
+  token?: string;
+  userLoggedIn: boolean;
 }

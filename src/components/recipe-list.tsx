@@ -6,9 +6,14 @@ import { HeartIcon } from "./bottom-nav-bar";
 import { useAtom, useAtomValue } from "jotai";
 import { favoritesAtom, sessionAtom } from "@/lib/store";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
-import { Recipe } from "@/types";
 import { cn } from "@/lib/utils";
+import {
+  addRecipe,
+  deleteRecipe,
+  getCurrentUserRecipes,
+  Recipe,
+  RecipeWithId,
+} from "@/orm/recipe.collection";
 
 export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
@@ -18,25 +23,20 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   const markFavorite = async (recipe: Recipe) => {
     try {
       const user = session?.user;
-      const userId = user?.id;
+      const userId = await user?.uid;
 
       if (!userId) {
         throw new Error("User not authenticated");
       }
-      const { data, error } = await supabase
-        .from("recipe")
-        .upsert({
-          idMeal: recipe.idMeal,
-          strMeal: recipe.strMeal,
-          strMealThumb: recipe.strMealThumb,
-          user_id: userId,
-        })
-        .select("*");
+      const docRef = await addRecipe({
+        idMeal: recipe.idMeal,
+        strMeal: recipe.strMeal,
+        strMealThumb: recipe.strMealThumb,
+        uid: userId,
+      });
 
-      if (error)
-        throw new Error("Error marking the recipe as favorite:", error);
-
-      setFavorites((prev) => (prev ? [...prev, ...data] : data));
+      console.log({ docRef });
+      await fetchFavorites();
 
       toast({
         title: "Success:",
@@ -55,21 +55,10 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
     }
   };
 
-  const removeFavorite = async (recipe: Recipe) => {
+  const removeFavorite = async (recipe: RecipeWithId) => {
     try {
-      const { error } = await supabase
-        .from("recipe")
-        .delete()
-        .eq("idMeal", recipe.idMeal);
-
-      if (error) {
-        throw new Error(
-          `Failed to remove the favorite recipe bearing id ${recipe.idMeal}`
-        );
-      }
-
+      await deleteRecipe(recipe.id);
       await fetchFavorites();
-
       toast({
         title: "Success:",
         description: "The recipe has been unmarked as favorite",
@@ -87,11 +76,10 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
 
   const fetchFavorites = async () => {
     try {
-      const { data, error } = await supabase.from("recipe").select("*");
-      if (error) throw error;
-      setFavorites(data as Recipe[]);
+      const newFav = await getCurrentUserRecipes();
+      setFavorites(newFav);
     } catch (error: any) {
-      setFavorites([] as Recipe[]);
+      setFavorites([]);
       toast({
         title: "Error:",
         variant: "destructive",
@@ -110,10 +98,10 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
     <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 sm:gap-4 md:gap-6 lg:gap-8">
       {favorites &&
         recipes.map((recipe) => {
-          const isFav = favorites.find(
+          const favoriteItem = favorites.find(
             ({ idMeal }) => recipe.idMeal === idMeal
           );
-          const FavIcon = isFav ? HeartIcon : Heart;
+          const FavIcon = favoriteItem ? HeartIcon : Heart;
           return (
             <a
               title={recipe.strMeal}
@@ -137,7 +125,9 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
                   onClick={(e) => {
                     e.preventDefault();
                     setFavLoading(recipe.idMeal);
-                    !isFav ? markFavorite(recipe) : removeFavorite(recipe);
+                    !favoriteItem
+                      ? markFavorite(recipe)
+                      : removeFavorite(favoriteItem);
                   }}
                 >
                   <>

@@ -5,7 +5,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { Provider, useAtom } from "jotai";
+import { Provider, useAtomValue } from "jotai";
 
 import Home from "@/pages/home";
 import Recipes from "@/pages/recipes";
@@ -14,64 +14,23 @@ import Recipe from "@/pages/recipe";
 import Information from "@/pages/info";
 import Favorites from "@/pages/favorites";
 import Login from "@/pages/login";
-import ForgotPassword from "@/pages/forgot-password";
+import ResetPassword from "@/pages/reset-password";
 
 import { sessionAtom, store } from "@/lib/store";
 import { AuthLayout } from "./components/auth-layout";
-import { useEffect, useState } from "react";
-import { supabase } from "./lib/supabaseClient";
 import ProtectedRoute from "./components/protected-route";
+import { Auth } from "./components/auth-provider";
+import Register from "./pages/register";
+import { ForgotPasswordSuccess } from "./pages/forgot-password-success";
 
 function NotFound() {
   return <div>404 Not Found</div>;
 }
 function AppRouter() {
   const location = useLocation();
+  const session = useAtomValue(sessionAtom);
 
-  const [session, setSession] = useAtom(sessionAtom);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (error) {
-        setSession(null);
-      }
-      setSession(data.session);
-      setReady(true);
-    });
-
-    supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session);
-
-      if (event === "INITIAL_SESSION") {
-        // handle initial session
-      } else if (event === "SIGNED_IN") {
-        // handle sign in event
-        // navigate("/");
-      } else if (event === "SIGNED_OUT") {
-        // handle sign out event
-        // navigate("/login");
-      } else if (event === "PASSWORD_RECOVERY") {
-        // navigate("/forgot-password");
-        // handle password recovery event
-      } else if (event === "TOKEN_REFRESHED") {
-        // handle token refreshed event
-      } else if (event === "USER_UPDATED") {
-        // handle user updated event
-        // navigate("/");
-      }
-    });
-  }, [session]);
-
-  if (!ready) {
-    return (
-      <div className="h-[calc(100dvh-env(safe-area-inset-top)-env(safe-area-inset-bottom))] flex flex-col justify-center items-center bg-emerald-900 text-white text-4xl text-center">
-        Loading...
-      </div>
-    );
-  }
-
-  const nonProtectedRoutes = ["/login"];
+  const nonProtectedRoutes = ["/auth/login", "/auth/register"];
 
   return (
     <Routes>
@@ -80,21 +39,27 @@ function AppRouter() {
         <Route path="recipes" element={<Recipes />} />
         <Route path="recipes/:id" element={<Recipe />} />
         <Route path="favorites" element={<Favorites />} />
-      </Route>{" "}
+      </Route>
       <Route
-        path="/forgot-password"
+        path="/reset-password"
         element={
           session?.user && nonProtectedRoutes.includes(location.pathname) ? (
-            <Navigate to="/login" replace />
+            <Navigate to="/auth/login" replace />
           ) : (
             <AuthLayout />
           )
         }
       >
-        <Route index element={<ForgotPassword />} />
+        <Route index element={<ResetPassword />} />
       </Route>
-      <Route path="/login" element={<AuthLayout />}>
-        <Route index element={<Login />} />
+      <Route path="/auth" element={<AuthLayout />}>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route
+          path="forgot-password-success"
+          element={<ForgotPasswordSuccess />}
+        />
+        <Route path="*" element={<Login />} />
       </Route>
       <Route path="/info" element={<Information />} />
       <Route path="*" element={<NotFound />} />
@@ -106,7 +71,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <AppRouter />
+        <Auth>
+          <AppRouter />
+        </Auth>
       </Provider>
     </BrowserRouter>
   );

@@ -5,19 +5,18 @@ import * as React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export function AuthLayoutTitle({
-  children = (
-    <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-      Sign in to unlock the <br /> best of{" "}
-      <span className="font-sourgummy">MoodMenu</span>.
-    </h2>
-  ),
+  children,
   className,
   ...props
 }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
   const location = useLocation();
   const navigate = useNavigate();
   const session = useAtomValue(sessionAtom);
-  if (session?.user && location.pathname === "/login") {
+  if (
+    session?.user &&
+    (location.pathname === "/auth/login" ||
+      location.pathname === "/auth/register")
+  ) {
     navigate("/");
     return null;
   }

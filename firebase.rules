@@ -1,0 +1,22 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    	match /recipes/{document=**} {
+      	allow get: if isOwner();
+        allow list: if isOwner();
+        
+        allow create: if isOwnDocument();
+        allow update: if isOwner();
+        allow delete: if isOwner();
+    	}
+      
+      function isOwner() {
+    			return request.auth != null && request.auth.uid == resource.data.uid;
+			}
+      
+      function isOwnDocument() {
+    			return request.auth != null && request.auth.uid == request.resource.data.uid;
+			}
+  }
+}

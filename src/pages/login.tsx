@@ -1,13 +1,25 @@
 import { AuthLayoutTitle } from "@/components/auth-layout";
 import { GoogleSignIn, SignInWithPassword } from "@/components/social-login";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
-      <AuthLayoutTitle />
+      <AuthLayoutTitle>
+        <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
+          Sign in to unlock the <br /> best of{" "}
+          <span className="font-sourgummy">MoodMenu</span>.
+          <div className="text-lg">
+            Do not have account,{" "}
+            <Link to="/auth/register" className="text-primary">
+              Register here
+            </Link>
+          </div>
+        </h2>
+      </AuthLayoutTitle>
       <div className="mt-4">
         <SignInWithPassword isLoading={isLoading} setIsLoading={setIsLoading} />
       </div>

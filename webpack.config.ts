@@ -1,13 +1,17 @@
 import path from "path";
 import { Configuration, DefinePlugin } from "webpack";
-import * as webpackDevServer from "webpack-dev-server";
-import CopyWebpackPlugin from "copy-webpack-plugin";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import { merge } from "webpack-merge";
 import dotenv from "dotenv";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
-const env = dotenv.config({ path: path.resolve(__dirname, ".env") });
-console.log(JSON.stringify(env.parsed, null, 2));
+const env =
+  dotenv.config({ path: path.resolve(__dirname, ".env") }).parsed || {};
+if (process.env.NODE_ENV !== "production") {
+  env.HOST = "http://localhost:5890";
+}
+
+console.log(JSON.stringify(env, null, 2));
 
 // Common configuration
 const commonConfig: Configuration = {
@@ -24,7 +28,6 @@ const commonConfig: Configuration = {
         use: [
           "style-loader",
           "css-loader",
-          "sass-loader",
           {
             loader: "postcss-loader",
           },
@@ -53,9 +56,6 @@ const commonConfig: Configuration = {
       crypto: false,
     },
   },
-  externals: {
-    "react-native-sqlite-storage": "react-native-sqlite-storage",
-  },
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
@@ -70,7 +70,7 @@ const commonConfig: Configuration = {
       filename: "index.html", //destination
     }),
     new DefinePlugin({
-      "process.env": JSON.stringify(env.parsed),
+      "process.env": JSON.stringify(env),
     }),
   ],
 };
@@ -80,32 +80,12 @@ const devConfig: Configuration = {
   mode: "development",
   devtool: "source-map",
   output: { publicPath: "/" },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
-    hot: true,
-    headers: (request) => {
-      const isWasmPath = request.originalUrl.includes(
-        "/assets/wasm/sql-wasm.wasm"
-      );
-      return {
-        "Cross-Origin-Opener-Policy": isWasmPath ? "same-origin" : "*",
-        "Cross-Origin-Embedder-Policy": isWasmPath
-          ? "require-corp"
-          : "credentialless",
-      };
-    },
-    historyApiFallback: true,
-    compress: true,
-    port: 3315,
-    allowedHosts: "all",
-  },
 };
 
 // Production configuration
 const prodConfig: Configuration = {
   mode: "production",
+  devtool: false,
   // Add any production-specific plugins or settings here
 };
 
