@@ -10,6 +10,7 @@ import { auth } from "@/lib/firebaseClient";
 import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signInWithRedirect,
 } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
@@ -122,7 +123,7 @@ export function GoogleSignIn({
     try {
       const provider = new GoogleAuthProvider();
       // Swapping back to Redirect as per working commit 0e8d222
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (error: any) {
       console.error("Auth Error:", error);
       toast({

@@ -29,23 +29,18 @@ const Header = ({
   return (
     <header className={cn("p-2 py-4 container mx-auto", className)} {...props}>
       <div className="flex flex-row items-center mx-auto space-x-2">
-        <div className="hidden sm:block">
-          <div className="flex flex-row space-x-2 items-center">
-            <img
-              src="/assets/logo.svg"
-              alt="logo"
-              className="w-8 h-8 lg:w-12 lg:h-12"
-            />
-            <a
-              href="/"
-              className="font-sourgummy text-2xl lg:text-3xl text-emerald-600 font-black leading-4 lg:leading-5"
-            >
-              Mood
-              <br />
-              <span className="text-gray-600">Menu</span>
-            </a>
+        <Link to="/" className={cn("flex flex-row space-x-2 items-center", {"hidden sm:flex": !isHomePage})}>
+          <img
+            src="/assets/logo.svg"
+            alt="logo"
+            className="w-8 h-8 lg:w-12 lg:h-12"
+          />
+          <div className="font-sourgummy text-2xl lg:text-3xl text-emerald-600 font-black leading-4 lg:leading-5 hidden sm:block">
+            Mood
+            <br />
+            <span className="text-gray-600">Menu</span>
           </div>
-        </div>
+        </Link>
         <div className="hidden sm:block grow" />
         {!isHomePage && (
           <Button
@@ -57,7 +52,7 @@ const Header = ({
             <ChevronLeft />
           </Button>
         )}
-       
+
         <div className="block sm:hidden grow" />
         <Button
           size="icon"
@@ -86,7 +81,7 @@ const Header = ({
           </Link>
         </Button>
 
-         {isHomePage && (
+        {isHomePage && (
           <Link
             to={session?.user ? "/account" : "/auth/login"}
             className="text-right transition-colors hover:text-primary flex flex-col items-end"
@@ -141,12 +136,9 @@ const Header = ({
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Button
-            variant="secondary"
-            asChild
-          >
+          <Button variant="secondary" asChild>
             <Link to="/auth/login">
-              <LogIn className="w-4 h-4" /> 
+              <LogIn className="w-4 h-4" />
               <span className="hidden md:block">Login</span>
             </Link>
           </Button>

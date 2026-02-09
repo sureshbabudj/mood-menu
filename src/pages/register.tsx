@@ -48,7 +48,7 @@ export default function Register() {
     <>
       <AuthLayoutTitle className="py-4">
         <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-          Register to get the best of MoodMenu
+          Register to get the best of {" "}
           <span className="font-sourgummy">MoodMenu</span>.
         </h2>
       </AuthLayoutTitle>
