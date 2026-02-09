@@ -1,4 +1,5 @@
 import path from "path";
+import "webpack-dev-server";
 import { Configuration, DefinePlugin } from "webpack";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import { merge } from "webpack-merge";
@@ -80,6 +81,14 @@ const devConfig: Configuration = {
   mode: "development",
   devtool: "source-map",
   output: { publicPath: "/" },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
+    historyApiFallback: true,
+    port: 5890,
+    hot: true,
+  },
 };
 
 // Production configuration
@@ -92,7 +101,7 @@ const prodConfig: Configuration = {
 // Export the merged configuration
 const config: Configuration = merge(
   commonConfig,
-  process.env.NODE_ENV === "production" ? prodConfig : devConfig
+  process.env.NODE_ENV === "production" ? prodConfig : devConfig,
 );
 
 export default config;
