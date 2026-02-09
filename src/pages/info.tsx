@@ -212,9 +212,9 @@ const Contact = () => {
       <h2 className="text-2xl font-bold mb-4">Contact</h2>
       <p>
         For any queries or issues, feel free to contact me at
-        <a href="mailto:sureshbabu.dj@gmail.com" className="text-blue-500">
+        <a href="mailto:sureshofcbe@gmail.com" className="text-blue-500">
           {" "}
-          sureshbabu.dj@gmail.com
+          sureshofcbe@gmail.com
         </a>
         .
       </p>

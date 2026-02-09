@@ -1,4 +1,4 @@
-import { Cloud, Info } from "lucide-react";
+import {  Info, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -87,17 +87,17 @@ export function BottomNavBar() {
           size="icon"
           variant="ghost"
           className="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group"
-          onClick={() => navigate("/sync")}
+          onClick={() => navigate("/account")}
         >
-          <Cloud
+          <User
             className={cn(
               "w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500",
-              location.pathname === "/sync"
+              location.pathname === "/account"
                 ? "text-emerald-600 dark:text-emerald-500"
                 : ""
             )}
           />
-          <span className="sr-only">Sync</span>
+          <span className="sr-only">Account</span>
         </Button>
       </div>
     </div>

@@ -36,7 +36,7 @@ export default function Layout() {
   const defaultHeight = `100dvh - env(safe-area-inset-top) - env(safe-area-inset-top)`;
   return (
     <>
-      <div ref={headerRef}>
+      <div ref={headerRef} className="lg:mx-4">
         <Header />
       </div>
       <div

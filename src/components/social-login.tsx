@@ -61,8 +61,7 @@ export function SignInWithPassword({
         throw new Error("validation failed");
       }
 
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log({ response });
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (e: any) {
       toast({
         description:

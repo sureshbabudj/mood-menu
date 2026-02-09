@@ -7,6 +7,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { favoritesAtom, sessionAtom } from "@/lib/store";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 import {
   addRecipe,
   deleteRecipe,
@@ -19,15 +20,20 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [favLoading, setFavLoading] = useState("");
   const session = useAtomValue(sessionAtom);
+  const navigate = useNavigate();
 
   const markFavorite = async (recipe: Recipe) => {
     try {
       const user = session?.user;
-      const userId = await user?.uid;
 
-      if (!userId) {
-        throw new Error("User not authenticated");
+      if (!user) {
+        navigate("/auth/login");
+        return;
       }
+
+      setFavLoading(recipe.idMeal);
+      const userId = user.uid;
+
       const docRef = await addRecipe({
         idMeal: recipe.idMeal,
         strMeal: recipe.strMeal,
@@ -75,6 +81,7 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   };
 
   const fetchFavorites = async () => {
+    if (!session?.user) return;
     try {
       const newFav = await getCurrentUserRecipes();
       setFavorites(newFav);
@@ -89,10 +96,12 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   };
 
   useEffect(() => {
-    if (!favorites) {
+    if (!favorites && session?.user) {
       fetchFavorites();
+    } else if (!session?.user) {
+      setFavorites([]);
     }
-  }, []);
+  }, [session]);
 
   return (
     <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 sm:gap-4 md:gap-6 lg:gap-8">

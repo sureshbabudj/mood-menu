@@ -7,7 +7,9 @@
     "start": "webpack serve --config webpack.config.ts --env development",
     "dev": "webpack --watch --config webpack.config.ts --env development",
     "build": "webpack --config webpack.config.ts --env production",
-    "serve": "firebase serve --only hosting --port 5890"
+    "serve": "firebase serve --only hosting --port 5890",
+    "emulators": "firebase emulators:start --only auth,firestore",
+    "dev:emulators": "concurrently \"npm run emulators\" \"npm run start\""
   },
   "keywords": [],
   "author": "",
@@ -20,7 +22,9 @@
     "@capacitor/status-bar": "^6.0.1",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
+    "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-checkbox": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-scroll-area": "^1.2.1",
     "@radix-ui/react-select": "^2.1.2",
@@ -54,6 +58,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/webpack-dev-server": "^4.7.2",
+    "concurrently": "^9.2.1",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",

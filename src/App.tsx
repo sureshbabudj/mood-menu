@@ -15,6 +15,7 @@ import Information from "@/pages/info";
 import Favorites from "@/pages/favorites";
 import Login from "@/pages/login";
 import ResetPassword from "@/pages/reset-password";
+import Account from "@/pages/account";
 
 import { sessionAtom, store } from "@/lib/store";
 import { AuthLayout } from "./components/auth-layout";
@@ -34,11 +35,12 @@ function AppRouter() {
 
   return (
     <Routes>
-      <Route path="/" element={<ProtectedRoute element={<Layout />} />}>
+      <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="recipes" element={<Recipes />} />
         <Route path="recipes/:id" element={<Recipe />} />
-        <Route path="favorites" element={<Favorites />} />
+        <Route path="favorites" element={<ProtectedRoute element={<Favorites />} />} />
+        <Route path="account" element={<ProtectedRoute element={<Account />} />} />
       </Route>
       <Route
         path="/reset-password"
