@@ -27,7 +27,7 @@ const Header = ({
   const session = useAtomValue(sessionAtom);
   const isHomePage = location.pathname === "/";
   return (
-    <header className={cn("p-2 py-4 mx-auto", className)} {...props}>
+    <header className={cn("p-2 py-4 container mx-auto", className)} {...props}>
       <div className="flex flex-row items-center mx-auto">
         <div className="hidden sm:block">
           <div className="flex flex-row space-x-2 items-center">

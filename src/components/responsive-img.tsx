@@ -4,25 +4,21 @@ const ResponsiveImage = ({
   src,
   alt,
   ...props
-}: React.ImgHTMLAttributes<HTMLImageElement>) => {
-  const srcSet = `
-    ${src}&w=320 320w,
-    ${src}&w=480 480w,
-    ${src}&w=800 800w,
-    ${src}&w=1200 1200w
-  `;
+}: React.ImgHTMLAttributes<HTMLImageElement & { src?: string }>) => {
+
 
   return (
-    <img
-      src={`${src}&w=600`}
-      srcSet={srcSet}
-      sizes="(max-width: 320px) 320px,
-             (max-width: 480px) 480px,
-             (max-width: 800px) 800px,
-             1200px"
-      alt={alt}
+    <div
+      className="relative my-4 w-full h-full overflow-hidden aspect-[9_/_18] bg-cover bg-position-center lg:aspect-[9_/_12] rounded-sm bg-gradient-to-tr from-neutral-50 to-neutral-100"
+      style={{
+        background:
+          "url('https://images.unsplash.com/photo-1520218508822-998633d997e6?q=80&w=600')",
+      }}
+      title={alt}
       {...props}
-    />
+    >
+            <div className="absolute bottom-[-5%] right-[-10%] w-[32%] h-[110%] bg-white blur-[20px] rounded-sm" />
+    </div>
   );
 };
 
