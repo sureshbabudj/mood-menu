@@ -2,6 +2,7 @@ import React from "react";
 import { CheckCircle, AlertCircle, ArrowLeft, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import SEO from "@/components/seo";
 
 const TermsOfUse = () => {
   return (
@@ -159,7 +160,7 @@ const Credits = () => {
       <p>
         <CheckCircle className="inline-block pr-2 text-primary" />
         Recipes powered by{" "}
-        <a href="https://www.themealdb.com" className="text-blue-500">
+        <a href="https://www.themealdb.com" target="_blank" rel="noopener noreferrer" className="text-blue-500">
           TheMealDB API
         </a>
         .
@@ -167,7 +168,7 @@ const Credits = () => {
       <p>
         <CheckCircle className="inline-block pr-2 text-primary" />
         Images sourced from{" "}
-        <a href="https://unsplash.com" className="text-blue-500">
+        <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer" className="text-blue-500">
           Unsplash
         </a>
         .
@@ -192,7 +193,7 @@ const Disclaimer = () => {
         <p>
           MoodMenu adheres to the principles of the Creative Commons license for
           non-commercial usage. For more details about these licenses, visit{" "}
-          <a href="https://creativecommons.org" className="text-blue-500">
+          <a href="https://creativecommons.org" target="_blank" rel="noopener noreferrer" className="text-blue-500">
             Creative Commons
           </a>
           .
@@ -226,6 +227,7 @@ const Information: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div className="container mx-auto p-4">
+      <SEO title="Information & Legal" description="Read about MoodMenu terms of use, privacy policy, and more." />
       <div className="flex flex-row justify-between">
         <Button size="icon" onClick={() => navigate(-1)} variant="ghost">
           <ArrowLeft width={24} height={24} />

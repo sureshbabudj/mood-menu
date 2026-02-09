@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { LogOut, User, Lock, Mail } from "lucide-react";
+import SEO from "@/components/seo";
 
 export default function Account() {
   const session = useAtomValue(sessionAtom);
@@ -46,6 +47,7 @@ export default function Account() {
 
   return (
     <div className="container mx-auto max-w-2xl p-4 space-y-8">
+      <SEO title="Account Settings" noindex={true} />
       <h1 className="text-3xl font-bold font-sourgummy text-primary">Account Settings</h1>
       
       {/* Profile Section */}

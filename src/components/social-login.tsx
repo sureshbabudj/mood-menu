@@ -10,7 +10,7 @@ import { auth } from "@/lib/firebaseClient";
 import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
 } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 
@@ -121,11 +121,12 @@ export function GoogleSignIn({
     setIsLoading(true);
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      // Swapping back to Redirect as per working commit 0e8d222
+      await signInWithRedirect(auth, provider);
     } catch (error: any) {
-      console.error("Popup Error:", error);
+      console.error("Auth Error:", error);
       toast({
-        description: "Failed to sign in. Please try again.",
+        description: error.message || "Failed to sign in. Please try again.",
         title: "Error:",
         variant: "destructive",
       });

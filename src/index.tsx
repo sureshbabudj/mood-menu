@@ -1,10 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
 
 import App from "./App";
 
 import "./styles.scss";
 import { Toaster } from "./components/ui/toaster";
+import ErrorBoundary from "./components/error-boundary";
 
 const rootRender = async () => {
   const container = document.getElementById("root");
@@ -12,8 +14,12 @@ const rootRender = async () => {
     const root = createRoot(container!);
     root.render(
       <StrictMode>
-        <App />
-        <Toaster />
+        <HelmetProvider>
+          <ErrorBoundary>
+            <App />
+            <Toaster />
+          </ErrorBoundary>
+        </HelmetProvider>
       </StrictMode>
     );
   } catch (e) {

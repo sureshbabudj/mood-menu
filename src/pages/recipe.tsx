@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RecipeDetails from "@/components/recipe-details";
+import SEO from "@/components/seo";
+import { Helmet } from "react-helmet-async";
 
 export interface RecipeDetail {
   idMeal: string;
@@ -64,6 +66,37 @@ export default function Recipe() {
   const id = Number(mealId);
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
 
+  const getIngredients = (r: RecipeDetail) => {
+    const list = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = r[`strIngredient${i}` as keyof RecipeDetail];
+      const measure = r[`strMeasure${i}` as keyof RecipeDetail];
+      if (ingredient && ingredient !== "") {
+        list.push(`${measure} ${ingredient}`);
+      }
+    }
+    return list;
+  };
+
+  const recipeSchema = recipe ? {
+    "@context": "https://schema.org/",
+    "@type": "Recipe",
+    "name": recipe.strMeal,
+    "image": [recipe.strMealThumb],
+    "author": {
+      "@type": "Organization",
+      "name": "MoodMenu"
+    },
+    "description": recipe.strInstructions.substring(0, 160) + "...",
+    "recipeCategory": recipe.strCategory,
+    "recipeCuisine": recipe.strArea,
+    "recipeIngredient": getIngredients(recipe),
+    "recipeInstructions": recipe.strInstructions.split('\r\n').filter(i => i.trim() !== '').map(instruction => ({
+      "@type": "HowToStep",
+      "text": instruction
+    }))
+  } : null;
+
   useEffect(() => {
     async function fetchRecipe(id: number) {
       try {
@@ -83,5 +116,26 @@ export default function Recipe() {
     }
   }, []);
 
-  return <>{recipe && <RecipeDetails recipe={recipe} />}</>;
+  return (
+    <>
+      {recipe && (
+        <>
+          <SEO 
+            title={recipe.strMeal} 
+            description={recipe.strInstructions.substring(0, 160)} 
+            image={recipe.strMealThumb}
+            type="article"
+          />
+          {recipeSchema && (
+            <Helmet>
+              <script type="application/ld+json">
+                {JSON.stringify(recipeSchema)}
+              </script>
+            </Helmet>
+          )}
+          <RecipeDetails recipe={recipe} />
+        </>
+      )}
+    </>
+  );
 }

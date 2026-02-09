@@ -4,6 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  
+  <link rel="preconnect" href="https://www.themealdb.com">
+  <link rel="dns-prefetch" href="https://www.themealdb.com">
+  <link rel="preconnect" href="https://identitytoolkit.googleapis.com">
+  <link rel="preconnect" href="https://securetoken.googleapis.com">
+
   <meta http-equiv="Content-Security-Policy"
     content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: content:">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
@@ -11,30 +17,38 @@
   <meta name="theme-color" content="#000000">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>MoodMenu</title>
+  <title>MoodMenu | Discover Recipes Based on Your Mood</title>
   <meta name="description"
-    content="MoodMenu: A personalized app that recommends recipes and restaurants based on your mood, dietary preferences, and location. Powered by advanced APIs, MoodMenu delivers a seamless, visually appealing experience for discovering meals and dining options tailored to how you feel">
+    content="MoodMenu helps you find the perfect recipe or restaurant based on your current mood and dietary preferences. Discover personalized meal recommendations today.">
 
-  <meta property="og:title" content="MoodMenu">
-  <meta property="og:description"
-    content="MoodMenu - A personalized app that recommends recipes and restaurants based on your mood, dietary preferences, and location. Powered by advanced APIs, MoodMenu delivers a seamless, visually appealing experience for discovering meals and dining options tailored to how you feel">
-  <meta property="og:image" content="https://sureshbabudj.blogspot.com/static/share.png">
-  <meta property="og:image:width" content="1500">
-  <meta property="og:image:height" content="800">
-  <meta property="og:site_name" content="MoodMenu">
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://sureshbabudj.blogspot.com">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MoodMenu">
-  <meta name="twitter:description"
-    content="MoodMenu - A personalized app that recommends recipes and restaurants based on your mood, dietary preferences, and location. Powered by advanced APIs, MoodMenu delivers a seamless, visually appealing experience for discovering meals and dining options tailored to how you feel">
-  <meta name="twitter:image" content="https://sureshbabudj.blogspot.com/static/share.png">
+  <meta property="og:url" content="https://moodmenu.kanini.top/">
+  <meta property="og:title" content="MoodMenu | Discover Recipes Based on Your Mood">
+  <meta property="og:description" content="Personalized recipe and restaurant recommendations tailored to how you feel.">
+  <meta property="og:image" content="https://moodmenu.kanini.top/assets/logo-share.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://moodmenu.kanini.top/">
+  <meta property="twitter:title" content="MoodMenu | Discover Recipes Based on Your Mood">
+  <meta property="twitter:description" content="Personalized recipe and restaurant recommendations tailored to how you feel.">
+  <meta property="twitter:image" content="https://moodmenu.kanini.top/assets/logo-share.png">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="static/icons/apple-touch-icon.png">
   <link rel="icon" href="static/icons/favicon.png">
   <link rel="manifest" href="/manifest.webmanifest">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 
 <body class="safe-area-padding">

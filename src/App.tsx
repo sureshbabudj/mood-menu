@@ -4,8 +4,10 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { Provider, useAtomValue } from "jotai";
+import React, { useEffect } from "react";
 
 import Home from "@/pages/home";
 import Recipes from "@/pages/recipes";
@@ -23,18 +25,42 @@ import ProtectedRoute from "./components/protected-route";
 import { Auth } from "./components/auth-provider";
 import Register from "./pages/register";
 import { ForgotPasswordSuccess } from "./pages/forgot-password-success";
+import { Button } from "./components/ui/button";
+
+import { Link } from "react-router-dom";
 
 function NotFound() {
-  return <div>404 Not Found</div>;
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+      <h1 className="text-4xl font-bold font-sourgummy text-primary">404</h1>
+      <p className="text-xl">Oops! This recipe doesn't exist yet.</p>
+      <img src="/assets/logo.svg" alt="MoodMenu Logo" className="w-24 h-24 animate-bounce" />
+      <Button asChild>
+        <Link to="/">Go back to Home</Link>
+      </Button>
+    </div>
+  );
 }
 function AppRouter() {
   const location = useLocation();
   const session = useAtomValue(sessionAtom);
+  const navigate = useNavigate();
 
   const isAuthRoute = location.pathname.startsWith("/auth");
 
+  useEffect(() => {
+    if (session?.user && isAuthRoute) {
+      console.log("AppRouter: User authenticated, redirecting to home...");
+      navigate("/", { replace: true });
+    }
+  }, [session?.user, isAuthRoute, navigate]);
+
   if (session?.user && isAuthRoute) {
-    return <Navigate to="/" replace />;
+    return (
+      <div className="w-full h-full fixed top-0 left-0 bg-white z-50 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   return (

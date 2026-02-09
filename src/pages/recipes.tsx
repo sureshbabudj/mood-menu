@@ -1,4 +1,5 @@
 import { HotRecipes } from "@/components/hot-recipes";
+import SEO from "@/components/seo";
 import {
   CuisineEnum,
   DietaryPreferencesEnum,
@@ -19,6 +20,10 @@ export default function Recipes() {
   const dietaryPreference = params.get("diet");
   const cuisine = params.get("cuisine");
   const mood = params.get("mood");
+
+  const seoTitle = mood ? `Recipes for ${mood} mood` : "Discover Recipes";
+  const seoDescription = `Explore a variety of recipes${mood ? ` for your ${mood} mood` : ""}${cuisine ? ` in ${cuisine} cuisine` : ""}${dietaryPreference ? ` matching your ${dietaryPreference} diet` : ""}. Discover new flavors with MoodMenu.`;
+
   const navigate = useNavigate();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [hotRecipes, setHotRecipes] = useState<Recipe[]>([]);
@@ -100,6 +105,11 @@ export default function Recipes() {
 
   return (
     <div className="px-4 mb-2 container mx-auto">
+      <SEO 
+        title={seoTitle} 
+        description={seoDescription} 
+        keywords={`${mood ? mood + ' recipes, ' : ''}${cuisine ? cuisine + ' food, ' : ''}meal ideas, recipe finder, mood based dishes`}
+      />
       <h3>
         <span className="text-2xl font-sourgummy">Feeling {mood}?</span>
         <br />

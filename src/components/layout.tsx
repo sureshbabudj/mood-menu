@@ -14,12 +14,12 @@ export default function Layout() {
   const updateHeights = () => {
     if (headerRef.current && footerRef.current) {
       setContainerHeight(
-        headerRef.current.offsetHeight + footerRef.current.offsetHeight
+        headerRef.current.offsetHeight + footerRef.current.offsetHeight,
       );
     }
     if (headerRef.current && bottomNavBarRef.current) {
       setMobileContainerHeight(
-        headerRef.current.offsetHeight - bottomNavBarRef.current.offsetHeight
+        headerRef.current.offsetHeight - bottomNavBarRef.current.offsetHeight,
       );
     }
   };
@@ -39,7 +39,7 @@ export default function Layout() {
       <div ref={headerRef} className="lg:mx-4">
         <Header />
       </div>
-      <div
+      <main
         className="min-h-[var(--mobile-outlet-height)] max-sm:pb-[var(--bottom-bar-height)] sm:min-h-[var(--outlet-height)]"
         style={
           {
@@ -50,7 +50,7 @@ export default function Layout() {
         }
       >
         <Outlet />
-      </div>
+      </main>
       <div ref={footerRef}>
         <Footer />
       </div>

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /account
+Disallow: /favorites
+Disallow: /auth/
+
+Sitemap: https://moodmenu.kanini.top/sitemap.xml

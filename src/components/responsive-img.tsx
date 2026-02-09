@@ -3,21 +3,21 @@ import React from "react";
 const ResponsiveImage = ({
   src,
   alt,
+  className,
   ...props
-}: React.ImgHTMLAttributes<HTMLImageElement & { src?: string }>) => {
-
+}: React.ImgHTMLAttributes<HTMLImageElement>) => {
+  const defaultSrc = "https://images.unsplash.com/photo-1554980291-c3e7cea75872?q=80&w=600&auto=format&fit=crop";
 
   return (
-    <div
-      className="relative my-4 w-full h-full overflow-hidden aspect-[9_/_18] bg-cover bg-position-center lg:aspect-[9_/_12] rounded-sm bg-gradient-to-tr from-neutral-50 to-neutral-100"
-      style={{
-        background:
-          "url('https://images.unsplash.com/photo-1520218508822-998633d997e6?q=80&w=600')",
-      }}
-      title={alt}
-      {...props}
-    >
-            <div className="absolute bottom-[-5%] right-[-10%] w-[32%] h-[110%] bg-white blur-[20px] rounded-sm" />
+    <div className={`relative rounded-l-sm w-full h-full max-h-[80dvh] aspect-[9/30] md:aspect-[9/18] lg:aspect-[9/12] overflow-hidden ${className}`}>
+      <img
+        src={src || defaultSrc}
+        alt={alt || "MoodMenu Food Recommendation"}
+        className="w-full h-full object-cover"
+        loading="lazy"
+        {...props}
+      />
+      <div className="absolute bottom-[-5%] right-[-8%] w-[32%] h-[110%] bg-white blur-[10px] rounded-sm" />
     </div>
   );
 };

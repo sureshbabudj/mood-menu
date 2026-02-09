@@ -1,5 +1,6 @@
 import { RecipeForm } from "@/components/recipe-from";
 import ResponsiveImage from "@/components/responsive-img";
+import SEO from "@/components/seo";
 import { SVGAttributes } from "lucide-react";
 
 function FoodPlateSvg(props: SVGAttributes) {
@@ -34,23 +35,26 @@ function FoodPlateSvg(props: SVGAttributes) {
 
 export default function Home() {
   return (
-    <div className=" relative">
+    <div className="relative py-1 md:py-2 lg:pt-4">
+      <SEO
+        title="Home"
+        description="Find the perfect recipe to match your mood with MoodMenu. Personalized recipe recommendations based on how you feel."
+        keywords="mood recipes, personalized meal ideas, mood menu, recipe finder, dinner suggestions, healthy mood food"
+      />
       <div className="absolute top-[10%] left-[-10%] w-[60%] h-[40%] bg-green-100/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-[10%] right-[-5%] w-[60%] h-[30%] bg-green-100/10 blur-[100px] rounded-full" />
       <div className="mx-auto container relative">
         <div className="flex max-sm:flex-col sm:flex-row h-full">
-          <div className="self-center h-full hidden sm:block md:basis-1/2">
-            <ResponsiveImage
-              alt="intro"
-            />
+          <div className="self-center h-full hidden sm:block md:basis-1/2 md:gap-2">
+            <ResponsiveImage alt="MoodMenu - Discover recipes that match your mood" loading="eager" />
           </div>
           <div className="flex flex-col justify-center items-center space-y-4 p-4 grow">
             <div className="relative p-2 m-2  bg-orange-400 rounded-3xl  skew-x-1 skew-y-1">
               <span className="block absolute w-full -top-2 -left-2 bg-orange-400 opacity-70 rounded-3xl h-full -z-10 -skew-x-1 -skew-y-3"></span>
               <div className="flex flex-row p-2 text-white justify-between items-center">
-                <p className="text-lg font-extrabold font-sourgummy sm:text-2xl">
+                <h1 className="text-lg font-extrabold font-sourgummy sm:text-2xl">
                   Find the Perfect Recipe to Match Your Mood!
-                </p>
+                </h1>
                 <FoodPlateSvg />
               </div>
             </div>

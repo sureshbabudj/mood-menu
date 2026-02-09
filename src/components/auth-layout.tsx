@@ -1,8 +1,6 @@
-import { sessionAtom } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { useAtomValue } from "jotai";
 import * as React from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 export function AuthLayoutTitle({
   children,
@@ -10,7 +8,7 @@ export function AuthLayoutTitle({
   ...props
 }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
   return (
-    <div className={cn("space-y-4", className)} {...props}>
+    <Link to="/" className={cn("space-y-4", className)} {...props as any}>
       <img
         src="/assets/logo.svg"
         loading="lazy"
@@ -18,7 +16,7 @@ export function AuthLayoutTitle({
         alt="MoodMenu Logo"
       />
       {children}
-    </div>
+    </Link>
   );
 }
 

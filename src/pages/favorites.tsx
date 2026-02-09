@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { favoritesAtom } from "@/lib/store";
 import { getCurrentUserRecipes } from "@/orm/recipe.collection";
+import SEO from "@/components/seo";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
@@ -29,6 +30,7 @@ export default function Favorites() {
 
   return (
     <div className="container mx-auto max-sm:px-4 py-4">
+      <SEO title="My Favorites" noindex={true} />
       <h3 className="font-sourgummy font-semibold text-xl mb-3">
         🔥 Your Ultimate Go-To Recipes!
       </h3>

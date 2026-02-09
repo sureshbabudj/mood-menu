@@ -28,7 +28,7 @@ const Header = ({
   const isHomePage = location.pathname === "/";
   return (
     <header className={cn("p-2 py-4 container mx-auto", className)} {...props}>
-      <div className="flex flex-row items-center mx-auto">
+      <div className="flex flex-row items-center mx-auto space-x-2">
         <div className="hidden sm:block">
           <div className="flex flex-row space-x-2 items-center">
             <img
@@ -57,17 +57,7 @@ const Header = ({
             <ChevronLeft />
           </Button>
         )}
-        {isHomePage && (
-          <Link
-            to={session?.user ? "/account" : "/auth/login"}
-            className="sm:text-right transition-colors hover:text-primary"
-          >
-            <Greeting />
-            <h3 className="text-xl font-semibold">
-              {session?.user?.displayName ?? session?.user?.email ?? "Guest"}
-            </h3>
-          </Link>
-        )}
+       
         <div className="block sm:hidden grow" />
         <Button
           size="icon"
@@ -95,6 +85,18 @@ const Header = ({
             <Search />
           </Link>
         </Button>
+
+         {isHomePage && (
+          <Link
+            to={session?.user ? "/account" : "/auth/login"}
+            className="text-right transition-colors hover:text-primary flex flex-col items-end"
+          >
+            <Greeting />
+            <h3 className="text-xl font-semibold">
+              {session?.user?.displayName ?? session?.user?.email ?? "Guest"}
+            </h3>
+          </Link>
+        )}
         {session?.user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -140,13 +142,12 @@ const Header = ({
           </DropdownMenu>
         ) : (
           <Button
-            size="icon"
-            variant="ghost"
-            className="text-destructive"
+            variant="secondary"
             asChild
           >
             <Link to="/auth/login">
-              <LogIn className="w-4 h-4" />
+              <LogIn className="w-4 h-4" /> 
+              <span className="hidden md:block">Login</span>
             </Link>
           </Button>
         )}

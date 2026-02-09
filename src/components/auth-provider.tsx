@@ -36,7 +36,7 @@ export function Auth({ children }: PropsWithChildren) {
       userLoggedIn: true,
       isEmailUser: isEmail,
       isGoogleUser: isGoogle,
-      user,
+      user: { ...user }, // Spread as in 0e8d222
       ready: true,
       token,
     };
@@ -45,36 +45,40 @@ export function Auth({ children }: PropsWithChildren) {
   useEffect(() => {
     let mounted = true;
 
-    // Listen for auth state changes (handles popup and persistent session)
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!mounted) return;
-      console.log("Auth State Changed:", user ? user.email : "No User");
-      setSession(processInfo(user));
-      setInitializing(false);
-    });
-
-    // Check for a redirect result (if the user still wants to use redirect)
+    // Handle initial redirect result (important for signInWithRedirect)
     getRedirectResult(auth)
       .then((result) => {
-        if (result && mounted) {
-          console.log("Redirect Success:", result.user.email);
+        if (mounted && result) {
+          console.log("Auth Provider: Redirect result handled successfully");
           const credential = GoogleAuthProvider.credentialFromResult(result);
-          setSession(processInfo(result.user, credential?.accessToken));
-          setInitializing(false);
+          setSession(processInfo(result.user, credential?.accessToken || undefined));
         }
       })
       .catch((error) => {
-        if (mounted) {
-          console.error("Redirect Error:", error);
-          setInitializing(false);
-        }
+        console.error("Auth Provider: Redirect error", error);
       });
+
+    // Standard observer for auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!mounted) return;
+      
+      console.log("Auth Provider: ", user ? `User (${user.email}) is logged in` : "No active session");
+      
+      // Keep it "sticky" like in 0e8d222
+      if (session?.user && user && session.user.uid === user.uid) {
+        setInitializing(false);
+        return;
+      }
+
+      setSession(processInfo(user));
+      setInitializing(false);
+    });
 
     return () => {
       mounted = false;
       unsubscribe();
     };
-  }, [setSession]);
+  }, [setSession, session?.user]);
 
   return (
     <>
