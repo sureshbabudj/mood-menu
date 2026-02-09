@@ -9,7 +9,8 @@
     "build": "NODE_ENV=production webpack --config webpack.config.ts",
     "serve": "firebase serve --only hosting --port 5890",
     "emulators": "firebase emulators:start --only auth,firestore",
-    "dev:emulators": "concurrently \"npm run emulators\" \"npm run start\""
+    "dev:emulators": "concurrently \"npm run emulators\" \"npm run start\"",
+    "deploy": "firebase deploy --only hosting"
   },
   "keywords": [],
   "author": "",
