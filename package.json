@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.ts --env development",
     "dev": "webpack --watch --config webpack.config.ts --env development",
-    "build": "webpack --config webpack.config.ts --env production",
+    "build": "NODE_ENV=production webpack --config webpack.config.ts",
     "serve": "firebase serve --only hosting --port 5890",
     "emulators": "firebase emulators:start --only auth,firestore",
     "dev:emulators": "concurrently \"npm run emulators\" \"npm run start\""

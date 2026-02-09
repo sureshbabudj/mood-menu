@@ -8,7 +8,11 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 
 const env =
   dotenv.config({ path: path.resolve(__dirname, ".env") }).parsed || {};
-if (process.env.NODE_ENV !== "production") {
+
+if (process.env.NODE_ENV === "production") {
+  env.HOST = "https://moodmenu.kanini.top";
+  env.USE_EMULATOR = "false";
+} else {
   env.HOST = "http://localhost:5890";
 }
 
@@ -60,6 +64,7 @@ const commonConfig: Configuration = {
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
     clean: true,
   },
   plugins: [
@@ -80,7 +85,6 @@ const commonConfig: Configuration = {
 const devConfig: Configuration = {
   mode: "development",
   devtool: "source-map",
-  output: { publicPath: "/" },
   devServer: {
     static: {
       directory: path.join(__dirname, "public"),

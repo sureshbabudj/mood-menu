@@ -58,15 +58,15 @@ const Header = ({
           </Button>
         )}
         {isHomePage && (
-          <a
-            href={session?.user ? "/account" : "/auth/login"}
+          <Link
+            to={session?.user ? "/account" : "/auth/login"}
             className="sm:text-right transition-colors hover:text-primary"
           >
             <Greeting />
             <h3 className="text-xl font-semibold">
               {session?.user?.displayName ?? session?.user?.email ?? "Guest"}
             </h3>
-          </a>
+          </Link>
         )}
         <div className="block sm:hidden grow" />
         <Button
@@ -75,15 +75,15 @@ const Header = ({
           className="hidden sm:inline-flex text-red-500"
           asChild
         >
-          <a href="/info">
+          <Link to="/info">
             <Info />
-          </a>
+          </Link>
         </Button>
 
         <Button size="icon" variant="ghost" className="text-pink-500" asChild>
-          <a href="/favorites">
+          <Link to="/favorites">
             <HeartIcon />{" "}
-          </a>
+          </Link>
         </Button>
         <Button
           size="icon"
@@ -91,9 +91,9 @@ const Header = ({
           asChild
           className="text-emerald-600"
         >
-          <a href="/">
+          <Link to="/">
             <Search />
-          </a>
+          </Link>
         </Button>
         {session?.user ? (
           <DropdownMenu>
@@ -104,7 +104,7 @@ const Header = ({
                 className="text-cyan-600 hidden sm:inline-flex h-10 w-10 overflow-hidden rounded-full"
                 asChild
               >
-                <a href="/account">
+                <Link to="/account">
                   <Avatar>
                     {session.user.photoURL ? (
                       <AvatarImage
@@ -117,7 +117,7 @@ const Header = ({
                       </AvatarFallback>
                     )}
                   </Avatar>
-                </a>
+                </Link>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -145,9 +145,9 @@ const Header = ({
             className="text-destructive"
             asChild
           >
-            <a href="/auth/login">
+            <Link to="/auth/login">
               <LogIn className="w-4 h-4" />
-            </a>
+            </Link>
           </Button>
         )}
       </div>

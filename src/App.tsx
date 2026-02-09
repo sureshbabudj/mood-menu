@@ -31,7 +31,11 @@ function AppRouter() {
   const location = useLocation();
   const session = useAtomValue(sessionAtom);
 
-  const nonProtectedRoutes = ["/auth/login", "/auth/register"];
+  const isAuthRoute = location.pathname.startsWith("/auth");
+
+  if (session?.user && isAuthRoute) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <Routes>
@@ -44,13 +48,7 @@ function AppRouter() {
       </Route>
       <Route
         path="/reset-password"
-        element={
-          session?.user && nonProtectedRoutes.includes(location.pathname) ? (
-            <Navigate to="/auth/login" replace />
-          ) : (
-            <AuthLayout />
-          )
-        }
+        element={<AuthLayout />}
       >
         <Route index element={<ResetPassword />} />
       </Route>

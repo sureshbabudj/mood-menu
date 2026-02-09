@@ -9,18 +9,6 @@ export function AuthLayoutTitle({
   className,
   ...props
 }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const session = useAtomValue(sessionAtom);
-  if (
-    session?.user &&
-    (location.pathname === "/auth/login" ||
-      location.pathname === "/auth/register")
-  ) {
-    navigate("/");
-    return null;
-  }
-
   return (
     <div className={cn("space-y-4", className)} {...props}>
       <img
