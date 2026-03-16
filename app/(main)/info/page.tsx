@@ -18,7 +18,7 @@ export default function InformationPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-sourgummy">
             Information & Legal
           </h1>
           <p className="text-xl text-muted-foreground">
@@ -32,7 +32,7 @@ export default function InformationPage() {
           <Link href="/about">
             <div className="h-full p-6 rounded-lg border border-border hover:border-orange-400 hover:shadow-lg transition-all cursor-pointer bg-card hover:bg-muted/50">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                <div className="p-3 border rounded-full">
                   <Info
                     className="text-blue-600 dark:text-blue-400"
                     width={24}
@@ -56,7 +56,7 @@ export default function InformationPage() {
           <Link href="/privacy-policy">
             <div className="h-full p-6 rounded-lg border border-border hover:border-orange-400 hover:shadow-lg transition-all cursor-pointer bg-card hover:bg-muted/50">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                <div className="p-3 border rounded-full">
                   <Shield
                     className="text-green-600 dark:text-green-400"
                     width={24}
@@ -80,7 +80,7 @@ export default function InformationPage() {
           <Link href="/terms-of-service">
             <div className="h-full p-6 rounded-lg border border-border hover:border-orange-400 hover:shadow-lg transition-all cursor-pointer bg-card hover:bg-muted/50">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                <div className="p-3 border rounded-full">
                   <FileText
                     className="text-purple-600 dark:text-purple-400"
                     width={24}
@@ -103,9 +103,11 @@ export default function InformationPage() {
 
         {/* Quick Links */}
         <div className="bg-muted rounded-lg p-8 text-center">
-          <h3 className="text-2xl font-bold mb-4">Need Quick Links?</h3>
+          <h3 className="text-2xl font-bold mb-4 font-sourgummy">
+            Need Quick Links?
+          </h3>
           <p className="text-muted-foreground mb-6">
-            Jump directly to the section you're looking for
+            Jump directly to the section you&apos;re looking for
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button asChild variant="outline">
@@ -117,7 +119,10 @@ export default function InformationPage() {
             <Button asChild variant="outline">
               <Link href="/terms-of-service#cookie">Cookies</Link>
             </Button>
-            <Button asChild className="bg-orange-600 hover:bg-orange-700">
+            <Button
+              asChild
+              className="bg-orange-600 hover:bg-orange-700 text-white"
+            >
               <Link href="/">Back Home</Link>
             </Button>
           </div>

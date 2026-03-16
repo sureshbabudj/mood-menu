@@ -52,7 +52,7 @@ export default function Home() {
           <div className="w-full max-w-xl group">
             <div className="relative transition-all duration-500 group-hover:-translate-y-1">
               {/* Card Glow */}
-              <div className="absolute -inset-1 bg-linear-to-r from-orange-500 to-rose-500 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+              <div className="absolute -inset-1 bg-linear-to-r from-orange-500/70 to-rose-500/70 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
 
               <div className="relative bg-slate-900/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl">
                 <div className="flex items-center justify-between mb-8">

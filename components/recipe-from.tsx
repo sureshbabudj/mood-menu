@@ -32,7 +32,7 @@ export const MoodEnum = z.enum(
     errorMap: () => ({
       message: "Choose your Mood to suggest more suited recipes",
     }),
-  }
+  },
 );
 const [firstCuisine, ...restCuisine] = cuisine;
 export const CuisineEnum = z.enum([firstCuisine, ...restCuisine], {
@@ -47,7 +47,7 @@ export const DietaryPreferencesEnum = z.enum(
     errorMap: () => ({
       message: "Choose your Dietary Preferences to suggest more suited recipes",
     }),
-  }
+  },
 );
 
 const FormSchema = z.object({
@@ -61,10 +61,12 @@ export function RecipeForm({
   ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
   const router = useRouter();
-  const [selectedMood, setSelectedMood] = useState<string | undefined>(undefined);
+  const [selectedMood, setSelectedMood] = useState<string | undefined>(
+    undefined,
+  );
   const [showCelebration, setShowCelebration] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -79,7 +81,7 @@ export function RecipeForm({
     const { mood, cuisine, dietaryPreference } = data;
     setTimeout(() => {
       router.push(
-        `/recipes?mood=${mood}&cuisine=${cuisine}&diet=${dietaryPreference}`
+        `/recipes?mood=${mood}&cuisine=${cuisine}&diet=${dietaryPreference}`,
       );
     }, 300);
   }
@@ -97,11 +99,11 @@ export function RecipeForm({
   ].reduce((a, b) => a + b, 0);
 
   const moodEmojis: Record<string, string> = {
-    "Happy": "😊",
-    "Tired": "😴",
-    "Adventurous": "🔥",
-    "Stressed": "😤",
-    "Focused": "🎯",
+    Happy: "😊",
+    Tired: "😴",
+    Adventurous: "🔥",
+    Stressed: "😤",
+    Focused: "🎯",
   };
 
   return (
@@ -124,18 +126,19 @@ export function RecipeForm({
                     Current Vibe
                   </FormLabel>
                 </div>
-                <Select 
+                <Select
                   onValueChange={(val) => {
                     field.onChange(val);
                     handleMoodChange(val);
-                  }} 
+                  }}
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger 
+                    <SelectTrigger
                       className={cn(
                         "h-14 bg-slate-950/40 border-white/10 rounded-2xl focus:ring-orange-500/40 focus:border-orange-500/40 backdrop-blur-md text-white transition-all",
-                        selectedMood && "border-orange-400/50 bg-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.2)]"
+                        selectedMood &&
+                          "border-orange-400/50 bg-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.2)]",
                       )}
                     >
                       <SelectValue placeholder="How are you feeling?" />
@@ -143,7 +146,11 @@ export function RecipeForm({
                   </FormControl>
                   <SelectContent className="bg-slate-900 border-white/10 text-white">
                     {MoodEnum.options.map((item) => (
-                      <SelectItem value={item} key={item} className="focus:bg-orange-500 focus:text-white">
+                      <SelectItem
+                        value={item}
+                        key={item}
+                        className="focus:bg-orange-500 focus:text-white"
+                      >
                         <span className="flex items-center gap-2">
                           <span>{moodEmojis[item]}</span>
                           {item}
@@ -175,12 +182,15 @@ export function RecipeForm({
                       Cuisine
                     </FormLabel>
                   </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
-                      <SelectTrigger 
+                      <SelectTrigger
                         className={cn(
                           "h-12 bg-slate-950/40 border-white/10 rounded-xl focus:ring-orange-500/40 backdrop-blur-md text-white transition-all",
-                          field.value && "border-orange-400/30 bg-orange-500/5"
+                          field.value && "border-orange-400/30 bg-orange-500/5",
                         )}
                       >
                         <SelectValue placeholder="Preferred" />
@@ -206,17 +216,20 @@ export function RecipeForm({
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center gap-2 mb-2 ml-1">
-                    <ChefHat size={14} className="text-blue-400" />
+                    <ChefHat size={14} className="text-orange-400" />
                     <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">
                       Diet
                     </FormLabel>
                   </div>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
-                      <SelectTrigger 
+                      <SelectTrigger
                         className={cn(
                           "h-12 bg-slate-950/40 border-white/10 rounded-xl focus:ring-orange-500/40 backdrop-blur-md text-white transition-all",
-                          field.value && "border-orange-400/30 bg-orange-500/5"
+                          field.value && "border-orange-400/30 bg-orange-500/5",
                         )}
                       >
                         <SelectValue placeholder="Preferences" />
@@ -246,13 +259,15 @@ export function RecipeForm({
                   key={i}
                   className={cn(
                     "h-1 flex-1 rounded-full transition-all duration-300",
-                    i < formProgress ? "bg-orange-400" : "bg-slate-700"
+                    i < formProgress ? "bg-orange-400" : "bg-slate-700",
                   )}
                 />
               ))}
             </div>
             <p className="text-xs text-primary-foreground text-center">
-              {formProgress === 3 ? "✨ All set! Ready to discover?" : `${formProgress === 1 ? "Great start!" : formProgress === 2 ? "Almost there!" : "Tell us more..."}`}
+              {formProgress === 3
+                ? "✨ All set! Ready to discover?"
+                : `${formProgress === 1 ? "Great start!" : formProgress === 2 ? "Almost there!" : "Tell us more..."}`}
             </p>
           </div>
         )}
@@ -260,7 +275,7 @@ export function RecipeForm({
         <Button
           className={cn(
             "w-full h-14 mt-4 bg-orange-500 hover:bg-orange-400 text-white rounded-2xl font-bold text-lg shadow-[0_10px_30px_rgba(249,115,22,0.3)] transition-all hover:shadow-[0_10px_40px_rgba(249,115,22,0.5)] active:scale-[0.98] group",
-            isSubmitting && "scale-95 opacity-75"
+            isSubmitting && "scale-95 opacity-75",
           )}
           size="lg"
           type="submit"
@@ -275,14 +290,19 @@ export function RecipeForm({
             ) : (
               <>
                 Search Recipes
-                <ChevronRight className="group-hover:translate-x-1 transition-transform" size={20} />
+                <ChevronRight
+                  className="group-hover:translate-x-1 transition-transform"
+                  size={20}
+                />
               </>
             )}
           </span>
         </Button>
 
         <p className="text-center text-[11px] text-slate-500 italic">
-          {formProgress === 3 ? "🎉 Time to get cooking!" : "Matching your mood to the perfect plate..."}
+          {formProgress === 3
+            ? "🎉 Time to get cooking!"
+            : "Matching your mood to the perfect plate..."}
         </p>
       </form>
     </Form>
