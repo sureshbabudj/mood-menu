@@ -56,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const dynamicRoutes: MetadataRoute.Sitemap = moods.flatMap((mood) =>
     cuisine.flatMap((cuis) =>
       categories.map((diet) => ({
-        url: `${BASE_URL}/recipes/?mood=${encodeURIComponent(mood)}&cuisine=${encodeURIComponent(cuis)}&diet=${encodeURIComponent(diet)}/`,
+        url: `${BASE_URL}/recipes/?mood=${encodeURIComponent(mood)}&amp;cuisine=${encodeURIComponent(cuis)}&amp;diet=${encodeURIComponent(diet)}`,
         lastModified: new Date(),
         changeFrequency: "weekly" as const,
         priority: 0.7,
