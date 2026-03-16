@@ -142,7 +142,7 @@ export default function Recipes() {
             </h1>
             
             <p className="text-lg text-slate-300 max-w-2xl">
-              We&apos;ve found <span className="font-bold text-orange-400">{hotRecipes.length + recipes.length} amazing recipes</span> crafted perfectly for your vibe. Let&apos;s get cooking! 🍽️
+              We&apos;ve found <span className="font-bold text-orange-400">{hotRecipes.length + recipes.length} amazing recipes</span> crafted perfectly for your vibe. Let&apos;s get cooking!
             </p>
           </div>
         </div>
@@ -206,7 +206,7 @@ export default function Recipes() {
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-2xl font-bold text-white mb-2">No recipes found</h3>
-            <p className="text-slate-400 mb-6">Try adjusting your mood or preferences</p>
+            <p className="text-primary-foreground mb-6">Try adjusting your mood or preferences</p>
             <Button asChild className="bg-orange-500 hover:bg-orange-400 text-white rounded-full">
               <Link href="/">Back to Discovery</Link>
             </Button>

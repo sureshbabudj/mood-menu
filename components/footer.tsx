@@ -11,7 +11,7 @@ const Footer = ({ className }: { className?: string }) => {
   return (
     <footer 
       className={cn(
-        "relative border-t border-white/5  backdrop-blur-xl",
+        "relative border-t border-white/5  backdrop-blur-xl hidden sm:block",
         className
       )}
     >
@@ -31,7 +31,7 @@ const Footer = ({ className }: { className?: string }) => {
                 <span className="text-orange-400">Mood</span><span className="text-orange-300">Menu</span>
               </span>
             </Link>
-            <p className="text-sm text-slate-400 leading-relaxed">
+            <p className="text-sm text-primary-foreground leading-relaxed">
               Elevating your cooking experience by matching recipes to your current vibration.
             </p>
           </div>
@@ -40,7 +40,7 @@ const Footer = ({ className }: { className?: string }) => {
           <div className="grid grid-cols-2 col-span-1 md:col-span-2 gap-8">
             <div className="space-y-4">
               <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">Explore</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
+              <ul className="space-y-2 text-sm text-primary-foreground">
                 <li><Link href="/" className="hover:text-orange-400 transition-colors">Search</Link></li>
                 <li><Link href="/recipes" className="hover:text-orange-400 transition-colors">Recipes</Link></li>
                 <li><Link href="/favorites" className="hover:text-orange-400 transition-colors">Favorites</Link></li>
@@ -48,7 +48,7 @@ const Footer = ({ className }: { className?: string }) => {
             </div>
             <div className="space-y-4">
               <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">Company</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
+              <ul className="space-y-2 text-sm text-primary-foreground">
                 <li><Link href="/info" className="hover:text-orange-400 transition-colors">About Us</Link></li>
                 <li><Link href="/" className="hover:text-orange-400 transition-colors">Home</Link></li>
               </ul>
@@ -79,13 +79,13 @@ const Footer = ({ className }: { className?: string }) => {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[11px] text-slate-500">
+          <p className="text-[11px] text-primary-foreground">
             © {currentYear} MoodMenu. All rights reserved.
           </p>
-          <div className="flex items-center gap-1 text-[11px] text-slate-500">
+          <div className="flex items-center gap-1 text-[11px] text-primary-foreground">
             <span>Made with</span>
             <Heart size={10} className="text-rose-500 fill-rose-500 animate-pulse" />
-            <a href="https://www.themealdb.com/" className="hover:text-orange-400 transition-colors">https://www.themealdb.com/</a>
+            <a href="https://www.themealdb.com/" className="hover:text-orange-400 transition-colors">themealdb</a>
           </div>
         </div>
       </div>

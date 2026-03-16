@@ -65,7 +65,7 @@ const Header = ({
           <Button
             size="icon"
             variant="ghost"
-            className="sm:hidden text-slate-400 hover:text-white hover:bg-white/10"
+            className="sm:hidden text-primary-foreground hover:text-white hover:bg-white/10"
             aria-label="Go back"
             onClick={() => router.back()}
           >
@@ -78,7 +78,7 @@ const Header = ({
           <Button
             size="icon"
             variant="ghost"
-            className="hidden sm:inline-flex text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 transition-colors"
+            className="hidden sm:inline-flex text-primary-foreground hover:text-orange-400 hover:bg-orange-500/10 transition-colors"
             asChild
           >
             <Link href="/info" aria-label="Information">
@@ -89,7 +89,7 @@ const Header = ({
           <Button
             size="icon"
             variant="ghost"
-            className="text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            className="text-primary-foreground hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
             asChild
           >
             <Link href="/favorites" aria-label="Favorites">
@@ -100,7 +100,7 @@ const Header = ({
           <Button
             size="icon"
             variant="ghost"
-            className="text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 transition-colors"
+            className="text-primary-foreground hover:text-orange-400 hover:bg-orange-500/10 transition-colors"
             asChild
           >
             <Link href="/" aria-label="Search recipes">
@@ -142,7 +142,7 @@ const Header = ({
                 align="end"
                 className="w-56 bg-slate-900/95 backdrop-blur-xl border-white/10 text-white"
               >
-                <DropdownMenuLabel className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">
+                <DropdownMenuLabel className="font-bold text-primary-foreground text-[10px] uppercase tracking-widest">
                   My Account
                 </DropdownMenuLabel>
                 <DropdownMenuItem

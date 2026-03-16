@@ -52,7 +52,7 @@ export default function Home() {
                 <div className="flex items-center justify-between mb-8">
                   <div className="space-y-1">
                     <h2 className="text-xl font-bold text-white">Recipe Finder</h2>
-                    <p className="text-sm text-slate-400">Enter your mood or craving</p>
+                    <p className="text-sm text-white">Enter your mood or craving</p>
                   </div>
                   <div className="p-3 bg-orange-500/20 rounded-2xl text-orange-400">
                     <Utensils size={28} />

@@ -120,7 +120,7 @@ export function RecipeForm({
               <FormItem className="relative">
                 <div className="flex items-center gap-2 mb-2 ml-1">
                   <Sparkles size={14} className="text-orange-400" />
-                  <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">
+                  <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">
                     Current Vibe
                   </FormLabel>
                 </div>
@@ -171,7 +171,7 @@ export function RecipeForm({
                 <FormItem>
                   <div className="flex items-center gap-2 mb-2 ml-1">
                     <Globe size={14} className="text-orange-400" />
-                    <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">
+                    <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">
                       Cuisine
                     </FormLabel>
                   </div>
@@ -207,7 +207,7 @@ export function RecipeForm({
                 <FormItem>
                   <div className="flex items-center gap-2 mb-2 ml-1">
                     <ChefHat size={14} className="text-blue-400" />
-                    <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">
+                    <FormLabel className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">
                       Diet
                     </FormLabel>
                   </div>
@@ -251,7 +251,7 @@ export function RecipeForm({
                 />
               ))}
             </div>
-            <p className="text-xs text-slate-400 text-center">
+            <p className="text-xs text-primary-foreground text-center">
               {formProgress === 3 ? "✨ All set! Ready to discover?" : `${formProgress === 1 ? "Great start!" : formProgress === 2 ? "Almost there!" : "Tell us more..."}`}
             </p>
           </div>
