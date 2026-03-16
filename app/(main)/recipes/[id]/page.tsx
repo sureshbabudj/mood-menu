@@ -27,16 +27,17 @@ async function fetchRecipeById(id: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const recipe = await fetchRecipeById(params.id);
+  const routeParams = await params;
+  const recipe = await fetchRecipeById(routeParams.id);
 
   if (!recipe) {
     return {
       title: "Recipe",
       description: "Explore detailed recipe steps and ingredients on MoodMenu.",
       alternates: {
-        canonical: `/recipes/${params.id}`,
+        canonical: `/recipes/${routeParams.id}`,
       },
     };
   }
@@ -47,7 +48,7 @@ export async function generateMetadata({
     title: recipe.strMeal,
     description,
     alternates: {
-      canonical: `/recipes/${params.id}`,
+      canonical: `/recipes/${routeParams.id}`,
     },
     openGraph: {
       type: "article",
