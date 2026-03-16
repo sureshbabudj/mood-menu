@@ -27,7 +27,7 @@ export default function Home() {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Left Side: Value Prop */}
           <div className="flex-1 text-center lg:text-left space-y-2 sm:space-y-6">
-            <div 
+            <div
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium animate-bounce-subtle"
               style={{
                 animation: "slide-up-fade 0.5s ease-out forwards",
@@ -38,7 +38,7 @@ export default function Home() {
               <span>Feeling snacky, spicy, or soulful?</span>
             </div>
 
-            <h1 
+            <h1
               className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight"
               style={{
                 animation: "slide-up-fade 0.5s ease-out forwards",
@@ -54,7 +54,7 @@ export default function Home() {
               Let your mood decide.
             </h1>
 
-            <p 
+            <p
               className="hidden sm:block text-lg text-slate-300 max-w-xl mx-auto lg:mx-0"
               style={{
                 animation: "slide-up-fade 0.5s ease-out forwards",
@@ -69,7 +69,7 @@ export default function Home() {
           </div>
 
           {/* Right Side: The Form Card */}
-          <div 
+          <div
             className="w-full max-w-xl group"
             style={{
               animation: "slide-up-fade 0.6s ease-out forwards",
