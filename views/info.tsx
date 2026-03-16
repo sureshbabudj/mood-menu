@@ -241,7 +241,7 @@ const Information: React.FC = () => {
           />
           <Link
             href="/"
-            className="font-sourgummy text-2xl lg:text-3xl text-emerald-600 font-black leading-4 lg:leading-5"
+            className="font-sourgummy text-2xl lg:text-3xl text-orange-600 font-black leading-4 lg:leading-5"
           >
             Mood
             <br />

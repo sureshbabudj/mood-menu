@@ -1,8 +1,12 @@
+"use client";
+
 import { RecipeDetail } from "@/views/recipe";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import EmbedYouTube from "./embed-youtube";
 import { RecipeTags } from "./recipe-tags";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { Check } from "lucide-react";
 
 export interface Ingredient {
   name: string;
@@ -43,30 +47,125 @@ function Ingredients({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & { ingredients: Ingredient[] }) {
+  const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
+  const [justChecked, setJustChecked] = useState<string | null>(null);
+
+  const handleIngredientCheck = (ingredientName: string) => {
+    const newChecked = new Set(checkedIngredients);
+    newChecked.has(ingredientName) 
+      ? newChecked.delete(ingredientName) 
+      : newChecked.add(ingredientName);
+    setCheckedIngredients(newChecked);
+    setJustChecked(ingredientName);
+    setTimeout(() => setJustChecked(null), 300);
+  };
+
+  const completionPercent = Math.round((checkedIngredients.size / ingredients.length) * 100);
+
   return (
     <div className={cn("max-w-4xl mx-auto", className)} {...props}>
-      <h2 className="font-semibold text-lg font-sourgummy mb-4">
-        Ingredients you'll love 🩷
-      </h2>
-      <div className="grid md:grid-cols-2 gap-2">
-        {ingredients.map((ingredient) => (
-          <div key={ingredient.name} className="flex gap-4 items-center">
-            <span className="bg-secondary p-1.5 rounded-full block w-16 h-16">
-              <AspectRatio ratio={1 / 1}>
-                <img
-                  src={ingredient.thumb}
-                  alt={`Photo for ${ingredient.name}`}
-                  className="rounded-full object-cover  h-auto"
-                />
-              </AspectRatio>
-            </span>
-            <div>
-              <h3 className="font-semibold text-xl">{ingredient.name}</h3>
-              <p className="mt-1 text-orange-700">{ingredient.measure}</p>
-            </div>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-semibold text-lg font-sourgummy">
+          Ingredients you'll love 🩷
+        </h2>
+        {ingredients.length > 0 && (
+          <div className="text-xs font-semibold text-orange-500">
+            {checkedIngredients.size}/{ingredients.length} gathered
           </div>
-        ))}
+        )}
       </div>
+      
+      {ingredients.length > 0 && (
+        <div className="mb-4 h-2 bg-orange-500/10 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-orange-400 to-orange-500 transition-all duration-500 ease-out"
+            style={{ width: `${completionPercent}%` }}
+          />
+        </div>
+      )}
+
+      <div className="grid md:grid-cols-2 gap-3">
+        {ingredients.map((ingredient, index) => {
+          const isChecked = checkedIngredients.has(ingredient.name);
+          const wasJustChecked = justChecked === ingredient.name;
+          
+          return (
+            <div
+              key={ingredient.name}
+              onClick={() => handleIngredientCheck(ingredient.name)}
+              className={cn(
+                "flex gap-4 items-center cursor-pointer rounded-lg p-3 transition-all duration-200 group",
+                isChecked 
+                  ? "bg-orange-500/10 border border-orange-400/30" 
+                  : "hover:bg-orange-500/5 border border-transparent",
+                "relative"
+              )}
+            >
+              {/* Checkbox */}
+              <div className={cn(
+                "relative flex-shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-300",
+                isChecked 
+                  ? "bg-orange-500 border-orange-500" 
+                  : "border-orange-300 group-hover:border-orange-400"
+              )}>
+                {isChecked && (
+                  <Check 
+                    size={14} 
+                    className={cn(
+                      "text-white",
+                      wasJustChecked && "animate-ingredient-check"
+                    )}
+                  />
+                )}
+              </div>
+
+              <span className="bg-secondary p-1.5 rounded-full flex-shrink-0 w-12 h-12 flex items-center justify-center overflow-hidden">
+                <AspectRatio ratio={1 / 1} className="w-full h-full">
+                  <img
+                    src={ingredient.thumb}
+                    alt={`Photo for ${ingredient.name}`}
+                    className={cn(
+                      "rounded-full object-cover w-full h-full transition-all duration-200",
+                      isChecked && "opacity-60 grayscale"
+                    )}
+                  />
+                </AspectRatio>
+              </span>
+
+              <div className="flex-1 min-w-0">
+                <h3 className={cn(
+                  "font-semibold text-sm transition-all duration-200",
+                  isChecked && "line-through text-muted-foreground"
+                )}>
+                  {ingredient.name}
+                </h3>
+                <p className={cn(
+                  "mt-0.5 text-xs transition-all duration-200",
+                  isChecked ? "text-muted-foreground" : "text-orange-600"
+                )}>
+                  {ingredient.measure}
+                </p>
+              </div>
+
+              {/* Celebration particle on check */}
+              {wasJustChecked && (
+                <>
+                  <div className="absolute top-1 right-2 animate-scale-pop text-lg">✨</div>
+                  <div className="absolute bottom-1 left-4 animate-scale-pop text-lg delay-75">🎉</div>
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {checkedIngredients.size === ingredients.length && ingredients.length > 0 && (
+        <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-300/30 text-center animate-slide-up-fade">
+          <p className="text-sm font-semibold text-orange-600">
+            🎊 All set! Ready to cook like a champion! 🎊
+          </p>
+        </div>
+      )}
     </div>
   );
 }

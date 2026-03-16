@@ -129,12 +129,13 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
           );
           const FavIcon = favoriteItem ? HeartIcon : Heart;
           return (
-            <Link
+              <Link
               title={recipe.strMeal}
               href={`/recipes/${recipe.idMeal}`}
               key={recipe.idMeal}
               className={cn(
-                "mm-recipe-card break-inside-avoid border border-muted block rounded-md bg-muted/80 hover:bg-muted shadow-lg mb-6 p-4 pb-0",
+                "mm-recipe-card break-inside-avoid border border-muted block rounded-md bg-muted/80 hover:bg-muted shadow-lg mb-6 p-4 pb-0 transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+                favoritePopId === recipe.idMeal && "mm-favorite-icon-pop",
                 {
                   "mm-recipe-card-ready": readyForReducedMotion,
                 }

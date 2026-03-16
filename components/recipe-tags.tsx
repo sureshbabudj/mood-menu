@@ -45,15 +45,15 @@ export function RecipeTags({
       {...props}
     >
       <div className="flex w-max space-x-2 p-2">
-        <Badge className="text-base bg-emerald-900 text-white py-1 rounded-full drop-shadow-md">
+        <Badge className="text-base bg-orange-900 text-white py-1 rounded-full drop-shadow-md">
           {cuisine}
         </Badge>
-        <Badge className="text-base bg-emerald-700 text-white py-1 rounded-full drop-shadow-md">
+        <Badge className="text-base bg-orange-700 text-white py-1 rounded-full drop-shadow-md">
           {category}
         </Badge>
         {ingredients.map((ingredient) => (
           <Badge
-            className="text-base bg-emerald-500 text-white py-1 rounded-full drop-shadow-md"
+            className="text-base bg-orange-500 text-white py-1 rounded-full drop-shadow-md"
             key={ingredient}
           >
             {ingredient}
