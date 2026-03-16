@@ -1,23 +1,24 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function AuthLayoutTitle({
   children,
   className,
 }: React.PropsWithChildren<{ className?: string }>) {
   return (
-    <div className={cn("space-y-4", className)}>
-      <Link href="/">
-        <img
-          src="/assets/logo.svg"
-          loading="lazy"
-          className="w-10"
-          alt="MoodMenu Logo"
-        />
-      </Link>
+    <Link href="/" className={cn("space-y-4", className)}>
+      <Image
+        src="/assets/logo.svg"
+        width={40}
+        height={40}
+        loading="lazy"
+        className="w-10"
+        alt="MoodMenu Logo"
+      />
       {children}
-    </div>
+    </Link>
   );
 }
 

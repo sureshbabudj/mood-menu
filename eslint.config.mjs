@@ -1,33 +1,16 @@
-// eslint.config.mjs
-import { defineConfig } from "eslint-define-config";
-
-export default defineConfig({
-  env: {
-    browser: true,
-    es2021: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-  ],
-  files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: "latest",
-    sourceType: "module",
-  },
-  plugins: ["react", "@typescript-eslint"],
-  rules: {
-    "@typescript-eslint/no-explicit-any": "off",
-    "react/react-in-jsx-scope": "off",
-  },
-  settings: {
-    react: {
-      version: "18",
-    },
-  },
-});
+import { defineConfig, globalIgnores } from 'eslint/config'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+ 
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+  ]),
+])
+ 
+export default eslintConfig
