@@ -175,7 +175,9 @@
   }
 
   /* Home page entrance animations */
-  [style*="animation: slide-up-fade"] {
+  [style*="animation: slide-up-fade"],
+  [style*="animation: scale-pop"],
+  .animate-ingredient-check {
     animation-duration: 0.01ms !important;
   }
 }

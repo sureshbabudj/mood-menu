@@ -64,13 +64,17 @@ module.exports = {
         "pulse-slow": "pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "bounce-subtle": "bounce-subtle 3s ease-in-out infinite",
         blob: "blob 7s infinite",
-        "mood-celebrate": "mood-celebrate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-        "recipe-reveal": "recipe-reveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-        "heart-beat": "heart-beat 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-        "scale-pop": "scale-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "mood-celebrate":
+          "mood-celebrate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "recipe-reveal":
+          "recipe-reveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "heart-beat":
+          "heart-beat 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "scale-pop": "scale-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "slide-up-fade": "slide-up-fade 0.4s ease-out forwards",
         "success-glow": "success-glow 0.6s ease-out forwards",
-        "ingredient-check": "ingredient-check 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "ingredient-check":
+          "ingredient-check 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "shimmer-pulse": "shimmer-pulse 2s ease-in-out infinite",
       },
       keyframes: {
@@ -101,7 +105,8 @@ module.exports = {
           "100%": { transform: "scale(1)" },
         },
         "scale-pop": {
-          "0%": { transform: "scale(0.8)", opacity: "0" },
+          "0%": { transform: "scale(0.6)", opacity: "0" },
+          "70%": { transform: "scale(1.15)", opacity: "1" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
         "slide-up-fade": {
@@ -114,9 +119,9 @@ module.exports = {
           "100%": { boxShadow: "0 0 0 0 rgba(244, 157, 37, 0)" },
         },
         "ingredient-check": {
-          "0%": { transform: "scale(0) rotate(-45deg)" },
-          "50%": { transform: "scale(1.2) rotate(5deg)" },
-          "100%": { transform: "scale(1) rotate(0deg)" },
+          "0%": { transform: "scale(0.6) rotate(-20deg)", opacity: "0" },
+          "70%": { transform: "scale(1.1) rotate(5deg)", opacity: "1" },
+          "100%": { transform: "scale(1) rotate(0deg)", opacity: "1" },
         },
         "shimmer-pulse": {
           "0%, 100%": { opacity: "1" },

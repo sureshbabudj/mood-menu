@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Karla, Sour_Gummy} from "next/font/google";
+import { Karla, Sour_Gummy } from "next/font/google";
 
 import { AppProviders } from "./providers";
 import "./styles.css";
@@ -54,6 +54,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className={`${karla.variable} ${sourGummy.variable}`}>
         <AppProviders>{children}</AppProviders>
       </body>
