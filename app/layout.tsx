@@ -5,8 +5,34 @@ import { AppProviders } from "./providers";
 import "./styles.css";
 
 export const metadata: Metadata = {
-  title: "MoodMenu",
+  metadataBase: new URL("https://moodmenu.kanini.top"),
+  title: {
+    default: "MoodMenu",
+    template: "%s | MoodMenu",
+  },
   description: "Discover recipes based on your mood.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "MoodMenu",
+    description: "Discover recipes based on your mood.",
+    url: "https://moodmenu.kanini.top",
+    siteName: "MoodMenu",
+    type: "website",
+    images: [
+      {
+        url: "/assets/logo-share.png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@moodmenu",
+    title: "MoodMenu",
+    description: "Discover recipes based on your mood.",
+    images: ["/assets/logo-share.png"],
+  },
 };
 
 const karla = Karla({

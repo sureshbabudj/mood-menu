@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import RecipeDetails from "@/components/recipe-details";
-import SEO from "@/components/seo";
-import { Helmet } from "react-helmet-async";
 
 export interface RecipeDetail {
   idMeal: string;
@@ -123,18 +121,11 @@ export default function Recipe() {
     <>
       {recipe && (
         <>
-          <SEO 
-            title={recipe.strMeal} 
-            description={recipe.strInstructions.substring(0, 160)} 
-            image={recipe.strMealThumb}
-            type="article"
-          />
           {recipeSchema && (
-            <Helmet>
-              <script type="application/ld+json">
-                {JSON.stringify(recipeSchema)}
-              </script>
-            </Helmet>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeSchema) }}
+            />
           )}
           <RecipeDetails recipe={recipe} />
         </>

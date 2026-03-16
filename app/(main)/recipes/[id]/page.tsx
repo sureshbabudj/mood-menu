@@ -1,6 +1,72 @@
+import type { Metadata } from "next";
 import Recipe from "@/views/recipe";
 
 export const dynamicParams = false;
+
+async function fetchRecipeById(id: string) {
+  try {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+      { cache: "force-cache" }
+    );
+
+    const data = (await response.json()) as {
+      meals?: Array<{
+        strMeal: string;
+        strInstructions: string;
+        strMealThumb: string;
+      }>;
+    };
+
+    return data.meals?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const recipe = await fetchRecipeById(params.id);
+
+  if (!recipe) {
+    return {
+      title: "Recipe",
+      description: "Explore detailed recipe steps and ingredients on MoodMenu.",
+      alternates: {
+        canonical: `/recipes/${params.id}`,
+      },
+    };
+  }
+
+  const description = recipe.strInstructions.substring(0, 160);
+
+  return {
+    title: recipe.strMeal,
+    description,
+    alternates: {
+      canonical: `/recipes/${params.id}`,
+    },
+    openGraph: {
+      type: "article",
+      title: recipe.strMeal,
+      description,
+      images: [
+        {
+          url: recipe.strMealThumb,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: recipe.strMeal,
+      description,
+      images: [recipe.strMealThumb],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   try {

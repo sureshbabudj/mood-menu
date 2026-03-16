@@ -5,7 +5,6 @@ import { CheckCircle, AlertCircle, ArrowLeft, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import SEO from "@/components/seo";
 
 const TermsOfUse = () => {
   return (
@@ -230,7 +229,6 @@ const Information: React.FC = () => {
   const router = useRouter();
   return (
     <div className="container mx-auto p-4">
-      <SEO title="Information & Legal" description="Read about MoodMenu terms of use, privacy policy, and more." />
       <div className="flex flex-row justify-between">
         <Button size="icon" onClick={() => router.back()} variant="ghost">
           <ArrowLeft width={24} height={24} />

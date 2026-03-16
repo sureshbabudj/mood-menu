@@ -2,7 +2,6 @@
 
 import { RecipeForm } from "@/components/recipe-from";
 import ResponsiveImage from "@/components/responsive-img";
-import SEO from "@/components/seo";
 import { SVGAttributes } from "lucide-react";
 
 function FoodPlateSvg(props: SVGAttributes) {
@@ -38,11 +37,6 @@ function FoodPlateSvg(props: SVGAttributes) {
 export default function Home() {
   return (
     <div className="relative py-1 md:py-2 lg:pt-4">
-      <SEO
-        title="Home"
-        description="Find the perfect recipe to match your mood with MoodMenu. Personalized recipe recommendations based on how you feel."
-        keywords="mood recipes, personalized meal ideas, mood menu, recipe finder, dinner suggestions, healthy mood food"
-      />
       <div className="absolute top-[10%] left-[-10%] w-[60%] h-[40%] bg-green-100/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-[10%] right-[-5%] w-[60%] h-[30%] bg-green-100/10 blur-[100px] rounded-full" />
       <div className="mx-auto container relative">
