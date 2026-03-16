@@ -65,7 +65,7 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
         variant: "destructive",
         description: getErrorMessage(
           error,
-          "Internal error while adding your favorite recipe."
+          "Internal error while adding your favorite recipe.",
         ),
       });
     } finally {
@@ -113,6 +113,7 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
     } else if (!session?.user) {
       setFavorites([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   useEffect(() => {
@@ -125,11 +126,11 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
       {favorites &&
         recipes.map((recipe, index) => {
           const favoriteItem = favorites.find(
-            ({ idMeal }) => recipe.idMeal === idMeal
+            ({ idMeal }) => recipe.idMeal === idMeal,
           );
           const FavIcon = favoriteItem ? HeartIcon : Heart;
           return (
-              <Link
+            <Link
               title={recipe.strMeal}
               href={`/recipes/${recipe.idMeal}`}
               key={recipe.idMeal}
@@ -138,11 +139,12 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
                 favoritePopId === recipe.idMeal && "mm-favorite-icon-pop",
                 {
                   "mm-recipe-card-ready": readyForReducedMotion,
-                }
+                },
               )}
               style={{ "--stagger": index % 10 } as React.CSSProperties}
             >
               <AspectRatio ratio={16 / 9}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={recipe.strMealThumb}
                   alt={`Photo for ${recipe.strMeal}`}
@@ -183,7 +185,8 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
                         height={12}
                         className={cn("text-pink-600", {
                           "pointer-events-none": favLoading,
-                          "mm-favorite-icon-pop": favoritePopId === recipe.idMeal,
+                          "mm-favorite-icon-pop":
+                            favoritePopId === recipe.idMeal,
                         })}
                       />
                     )}

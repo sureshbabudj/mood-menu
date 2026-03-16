@@ -6,10 +6,14 @@ const ResponsiveImage = ({
   className,
   ...props
 }: React.ImgHTMLAttributes<HTMLImageElement>) => {
-  const defaultSrc = "https://images.unsplash.com/photo-1554980291-c3e7cea75872?q=80&w=600&auto=format&fit=crop";
+  const defaultSrc =
+    "https://images.unsplash.com/photo-1554980291-c3e7cea75872?q=80&w=600&auto=format&fit=crop";
 
   return (
-    <div className={`relative rounded-l-sm w-full h-full max-h-[80dvh] aspect-[9/30] md:aspect-[9/18] lg:aspect-[9/12] overflow-hidden ${className}`}>
+    <div
+      className={`relative rounded-l-sm w-full h-full max-h-[80dvh] aspect-9/30 md:aspect-9/18 lg:aspect-9/12 overflow-hidden ${className}`}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src || defaultSrc}
         alt={alt || "MoodMenu Food Recommendation"}

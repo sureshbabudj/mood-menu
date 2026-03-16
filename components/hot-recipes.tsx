@@ -16,9 +16,9 @@ type HotRecipesProps = React.HTMLAttributes<HTMLDivElement> & {
 
 export function HotRecipes({ recipes, className, ...props }: HotRecipesProps) {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 2000, stopOnInteraction: true }),
   );
-  
+
   return (
     <div className={className} {...props}>
       <div className="flex items-center gap-3 mb-6">
@@ -58,15 +58,16 @@ export function HotRecipes({ recipes, className, ...props }: HotRecipesProps) {
                 className="group block relative overflow-hidden rounded-xl transition-all duration-300 hover:scale-105"
               >
                 <AspectRatio ratio={1 / 1} className="">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={recipe.strMealThumb}
                     alt={`Photo for ${recipe.strMeal}`}
                     loading="lazy"
                     className="h-full w-full object-cover transition-all duration-300 group-hover:brightness-75"
                   />
-                  
+
                   {/* Overlay with recipe name */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-slate-950/20 to-transparent flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <p className="text-white font-semibold text-sm line-clamp-2">
                       {recipe.strMeal}
                     </p>

@@ -98,7 +98,7 @@ function Ingredients({
           }}
         >
           <div
-            className="h-full bg-gradient-to-r from-orange-400 to-orange-500 transition-all duration-500 ease-out shadow-lg shadow-orange-500/50"
+            className="h-full bg-linear-to-r from-orange-400 to-orange-500 transition-all duration-500 ease-out shadow-lg shadow-orange-500/50"
             style={{ width: `${completionPercent}%` }}
           />
         </div>
@@ -129,7 +129,7 @@ function Ingredients({
               {/* Checkbox */}
               <div
                 className={cn(
-                  "relative flex-shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-300",
+                  "relative shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-300",
                   isChecked
                     ? "bg-orange-500 border-orange-500 shadow-md shadow-orange-500/50"
                     : "border-orange-300 group-hover:border-orange-400 group-hover:shadow-sm group-hover:shadow-orange-500/20",
@@ -148,11 +148,12 @@ function Ingredients({
 
               <span
                 className={cn(
-                  "bg-secondary p-1.5 rounded-full flex-shrink-0 w-12 h-12 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:shadow-orange-500/20",
+                  "bg-secondary p-1.5 rounded-full shrink-0 w-12 h-12 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:shadow-orange-500/20",
                   isChecked && "ring-2 ring-orange-400/30",
                 )}
               >
                 <AspectRatio ratio={1 / 1} className="w-full h-full">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={ingredient.thumb}
                     alt={`Photo for ${ingredient.name}`}
@@ -217,7 +218,7 @@ function Ingredients({
       {checkedIngredients.size === ingredients.length &&
         ingredients.length > 0 && (
           <div
-            className="mt-6 p-4 rounded-lg bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-300/30 text-center animate-slide-up-fade shadow-lg shadow-orange-500/20"
+            className="mt-6 p-4 rounded-lg bg-linear-to-r from-orange-500/10 to-yellow-500/10 border border-orange-300/30 text-center animate-slide-up-fade shadow-lg shadow-orange-500/20"
             style={{
               animation: "slide-up-fade 0.5s ease-out forwards",
               opacity: 0,

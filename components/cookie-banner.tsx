@@ -26,6 +26,7 @@ const CookieBanner: React.FC = () => {
     // Check if user has already made a cookie choice
     const savedPreferences = localStorage.getItem("cookiePreferences");
     if (!savedPreferences) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowBanner(true);
     } else {
       const stored = JSON.parse(savedPreferences);
