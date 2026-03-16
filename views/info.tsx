@@ -162,7 +162,12 @@ const Credits = () => {
       <p>
         <CheckCircle className="inline-block pr-2 text-primary" />
         Recipes powered by{" "}
-        <a href="https://www.themealdb.com" target="_blank" rel="noopener noreferrer" className="text-blue-500">
+        <a
+          href="https://www.themealdb.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500"
+        >
           TheMealDB API
         </a>
         .
@@ -170,7 +175,12 @@ const Credits = () => {
       <p>
         <CheckCircle className="inline-block pr-2 text-primary" />
         Images sourced from{" "}
-        <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer" className="text-blue-500">
+        <a
+          href="https://unsplash.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500"
+        >
           Unsplash
         </a>
         .
@@ -185,9 +195,9 @@ const Disclaimer = () => {
       <div className="py-4" id="disclaimer">
         <h2 className="text-2xl font-bold mb-4">Disclaimer</h2>
         <p>
-          This app is provided &quot;as-is&quot; without any guarantees of accuracy or
-          availability. We do not claim ownership of the recipe data or images
-          used. All rights remain with their respective owners.
+          This app is provided &quot;as-is&quot; without any guarantees of
+          accuracy or availability. We do not claim ownership of the recipe data
+          or images used. All rights remain with their respective owners.
         </p>
       </div>
       <div className="py-4" id="legalInfo">
@@ -195,7 +205,12 @@ const Disclaimer = () => {
         <p>
           MoodMenu adheres to the principles of the Creative Commons license for
           non-commercial usage. For more details about these licenses, visit{" "}
-          <a href="https://creativecommons.org" target="_blank" rel="noopener noreferrer" className="text-blue-500">
+          <a
+            href="https://creativecommons.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500"
+          >
             Creative Commons
           </a>
           .
@@ -234,6 +249,7 @@ const Information: React.FC = () => {
           <ArrowLeft width={24} height={24} />
         </Button>
         <div className="flex flex-row space-x-2 items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/logo.svg"
             alt="logo"

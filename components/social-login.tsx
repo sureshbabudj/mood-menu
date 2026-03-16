@@ -13,6 +13,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { GoogleAuthProvider, Auth } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const getErrorMessage = (error: unknown, fallback: string) => {
   if (error instanceof Error && error.message) {
@@ -29,6 +30,7 @@ export function SignInWithPassword({
   setIsLoading: (loading: boolean) => void;
 }) {
   const emailRef = React.useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
 
   const forgotPassword = async () => {
     try {
@@ -53,7 +55,7 @@ export function SignInWithPassword({
       toast({
         description: getErrorMessage(
           e,
-          "Failed to send password reset email. Please try again."
+          "Failed to send password reset email. Please try again.",
         ),
         title: "Error:",
         variant: "destructive",
@@ -77,6 +79,13 @@ export function SignInWithPassword({
       }
 
       await signInWithEmailAndPassword(auth as Auth, email, password);
+
+      // Redirect to home after successful sign in
+      toast({
+        description: "Successfully signed in. Redirecting...",
+        title: "Welcome!",
+      });
+      router.push("/");
     } catch (e: unknown) {
       toast({
         description: getErrorMessage(e, "Failed to sign in. Please try again."),
@@ -135,15 +144,27 @@ export function GoogleSignIn({
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }) {
+  const router = useRouter();
+
   const handleSignIn = async () => {
     setIsLoading(true);
     try {
       const provider = new GoogleAuthProvider();
       // Swapping back to Redirect as per working commit 0e8d222
       await signInWithPopup(auth as Auth, provider);
+
+      // Redirect to home after successful sign in
+      toast({
+        description: "Successfully signed in. Redirecting...",
+        title: "Welcome!",
+      });
+      router.push("/");
     } catch (error: unknown) {
       toast({
-        description: getErrorMessage(error, "Failed to sign in. Please try again."),
+        description: getErrorMessage(
+          error,
+          "Failed to sign in. Please try again.",
+        ),
         title: "Error:",
         variant: "destructive",
       });
@@ -157,7 +178,7 @@ export function GoogleSignIn({
       aria-label="Continue with Google"
       className={cn(
         "h-12 px-6 border-2 border-border rounded-full bg-background transition-[background-color,border-color,transform] duration-200 ease-out hover:border-primary/50 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] flex items-center motion-reduce:transition-none motion-reduce:transform-none",
-        { "pointer-events-none": isLoading }
+        { "pointer-events-none": isLoading },
       )}
       onClick={handleSignIn}
       disabled={isLoading}
@@ -212,7 +233,7 @@ export function GithubLogin({
       aria-label="Continue with GitHub"
       className={cn(
         "h-12 px-6 border-2 border-border rounded-full transition-[background-color,border-color,transform] duration-200 ease-out hover:border-primary/50 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none",
-        { "pointer-events-none": isLoading }
+        { "pointer-events-none": isLoading },
       )}
       disabled={isLoading}
     >
@@ -241,7 +262,7 @@ export function FacebookLogin({
       aria-label="Continue with Facebook"
       className={cn(
         "h-12 px-6 border-2 border-border rounded-full transition-[background-color,border-color,transform] duration-200 ease-out hover:border-primary/50 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none",
-        { "pointer-events-none": isLoading }
+        { "pointer-events-none": isLoading },
       )}
       disabled={isLoading}
     >

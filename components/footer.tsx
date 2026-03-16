@@ -33,7 +33,7 @@ const Footer = ({ className }: { className?: string }) => {
               </div>
               <span className="font-sourgummy text-xl font-bold tracking-tight">
                 <span className="text-orange-400">Mood</span>
-                <span className="text-orange-300">Menu</span>
+                <span className="text-orange-500">Menu</span>
               </span>
             </Link>
             <p className="text-sm text-primary-foreground leading-relaxed">
@@ -45,7 +45,7 @@ const Footer = ({ className }: { className?: string }) => {
           {/* Links Columns */}
           <div className="grid grid-cols-2 col-span-1 md:col-span-2 gap-8">
             <div className="space-y-4">
-              <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-500 font-black">
                 Explore
               </h4>
               <ul className="space-y-2 text-sm text-primary-foreground">
@@ -73,10 +73,18 @@ const Footer = ({ className }: { className?: string }) => {
                     Favorites
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/info"
+                    className="hover:text-orange-400 transition-colors"
+                  >
+                    Infomation
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-500 font-black">
                 Company
               </h4>
               <ul className="space-y-2 text-sm text-primary-foreground">
@@ -118,7 +126,7 @@ const Footer = ({ className }: { className?: string }) => {
 
           {/* Newsletter/Socials Column */}
           <div className="space-y-4">
-            <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">
+            <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-500 font-black">
               Social
             </h4>
             <div className="flex gap-4">

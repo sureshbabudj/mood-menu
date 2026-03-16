@@ -8,10 +8,13 @@ import {
 } from "firebase/auth";
 import { useAtom } from "jotai";
 import { sessionAtom } from "@/lib/store";
+import { useRouter, usePathname } from "next/navigation";
 
 export function Auth({ children }: PropsWithChildren) {
   const [session, setSession] = useAtom(sessionAtom);
   const [initializing, setInitializing] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   function processInfo(user: User | null, token?: string) {
     if (!user) {
@@ -26,10 +29,10 @@ export function Auth({ children }: PropsWithChildren) {
     }
 
     const isEmail = user.providerData.some(
-      (provider) => provider.providerId === "password"
+      (provider) => provider.providerId === "password",
     );
     const isGoogle = user.providerData.some(
-      (provider) => provider.providerId === GoogleAuthProvider.PROVIDER_ID
+      (provider) => provider.providerId === GoogleAuthProvider.PROVIDER_ID,
     );
 
     return {
@@ -58,7 +61,9 @@ export function Auth({ children }: PropsWithChildren) {
       .then((result) => {
         if (mounted && result) {
           const credential = GoogleAuthProvider.credentialFromResult(result);
-          setSession(processInfo(result.user, credential?.accessToken || undefined));
+          setSession(
+            processInfo(result.user, credential?.accessToken || undefined),
+          );
         }
       })
       .catch(() => {
@@ -68,7 +73,7 @@ export function Auth({ children }: PropsWithChildren) {
     // Standard observer for auth state changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!mounted) return;
-      
+
       // Keep it "sticky" like in 0e8d222
       if (session?.user && user && session.user.uid === user.uid) {
         if (!initialized) {
@@ -82,6 +87,14 @@ export function Auth({ children }: PropsWithChildren) {
       if (!initialized) {
         initialized = true;
         setInitializing(false);
+
+        // Redirect to home if user just signed in and is not on an auth page
+        if (user && !pathname?.startsWith("/auth") && pathname !== "/") {
+          router.push("/");
+        } else if (user && pathname?.startsWith("/auth")) {
+          // Redirect authenticated users away from auth pages
+          router.push("/");
+        }
       }
     });
 
@@ -89,14 +102,16 @@ export function Auth({ children }: PropsWithChildren) {
       mounted = false;
       unsubscribe();
     };
-  }, [setSession, session?.user]);
+  }, [setSession, session?.user, pathname, router]);
 
   return (
     <>
       {!initializing && session?.ready ? (
         <>
           {children}
-          <pre className="hidden">{JSON.stringify(auth?.currentUser ?? null)}</pre>
+          <pre className="hidden">
+            {JSON.stringify(auth?.currentUser ?? null)}
+          </pre>
         </>
       ) : (
         <div className="w-full h-full fixed top-0 left-0 bg-white opacity-75 z-50 flex justify-center items-center">

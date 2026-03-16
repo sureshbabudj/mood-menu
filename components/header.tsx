@@ -38,43 +38,44 @@ const Header = ({
         {...props}
       >
         <div className="container mx-auto flex flex-row items-center gap-4">
-          {/* Logo Section */}
-          <Link
-            href="/"
-            className={cn(
-              "flex items-center gap-3 transition-transform hover:scale-105",
-              { "hidden sm:flex": !isHomePage },
+          {/* Back Button for Mobile Search/Results */}
+          <div className="flex">
+            {!isHomePage && (
+              <Button
+                size="icon"
+                variant="ghost"
+                className="sm:hidden text-primary-foreground hover:text-white hover:bg-white/10"
+                aria-label="Go back"
+                onClick={() => router.back()}
+              >
+                <ChevronLeft size={20} />
+              </Button>
             )}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/logo.svg"
-              alt="logo"
-              className="w-5 h-6 lg:w-7 lg:h-7"
-            />
+            {/* Logo Section */}
+            <Link
+              href="/"
+              className={cn(
+                "items-center transition-transform hover:scale-105 flex",
+                { "gap-3": isHomePage },
+              )}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/logo.svg"
+                alt="logo"
+                className="w-5 h-6 lg:w-7 lg:h-7"
+              />
 
-            <div className="font-sourgummy text-xl lg:text-2xl leading-none hidden sm:block">
-              <span className="text-orange-400 font-black tracking-tight">
-                Mood
-              </span>
-              <span className="text-orange-300 font-bold -mt-1\">Menu</span>
-            </div>
-          </Link>
+              <div className="font-sourgummy text-xl lg:text-2xl leading-none hidden sm:block">
+                <span className="text-orange-400 font-black tracking-tight">
+                  Mood
+                </span>
+                <span className="text-orange-300 font-bold -mt-1\">Menu</span>
+              </div>
+            </Link>
+          </div>
 
           <div className="grow" />
-
-          {/* Back Button for Mobile Search/Results */}
-          {!isHomePage && (
-            <Button
-              size="icon"
-              variant="ghost"
-              className="sm:hidden text-primary-foreground hover:text-white hover:bg-white/10"
-              aria-label="Go back"
-              onClick={() => router.back()}
-            >
-              <ChevronLeft size={20} />
-            </Button>
-          )}
 
           {/* Navigation Actions */}
           <div className="flex items-center gap-1 sm:gap-2">
@@ -145,7 +146,7 @@ const Header = ({
                   align="end"
                   className="w-56 bg-slate-900/95 backdrop-blur-xl border-white/10 text-white"
                 >
-                  <DropdownMenuLabel className="font-bold text-primary-foreground text-[10px] uppercase tracking-widest">
+                  <DropdownMenuLabel className="font-bold text-muted text-[10px] uppercase tracking-widest">
                     My Account
                   </DropdownMenuLabel>
                   <DropdownMenuItem
