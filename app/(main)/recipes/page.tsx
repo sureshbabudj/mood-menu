@@ -7,14 +7,15 @@ type RecipesSearchParams = {
   diet?: string;
 };
 
-export function generateMetadata({
+export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: RecipesSearchParams;
-}): Metadata {
-  const mood = searchParams.mood;
-  const cuisine = searchParams.cuisine;
-  const diet = searchParams.diet;
+  searchParams: Promise<RecipesSearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const mood = params.mood;
+  const cuisine = params.cuisine;
+  const diet = params.diet;
   const title = mood ? `Recipes for ${mood} mood` : "Discover Recipes";
   const description = `Explore a variety of recipes${mood ? ` for your ${mood} mood` : ""}${cuisine ? ` in ${cuisine} cuisine` : ""}${diet ? ` matching your ${diet} diet` : ""}. Discover new flavors with MoodMenu.`;
   const query = new URLSearchParams();
