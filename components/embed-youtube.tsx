@@ -1,5 +1,4 @@
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Play } from "lucide-react";
 
 interface EmbedYouTubeProps {
   videoUrl: string;
@@ -11,28 +10,29 @@ const EmbedYouTube = ({
   title = "Embedded youtube",
 }: React.AnchorHTMLAttributes<HTMLAnchorElement> & EmbedYouTubeProps) => {
   const videoId = videoUrl.split("v=")[1];
-  const embedUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+
+  if (!videoId) {
+    return null;
+  }
+
+  // YouTube embed URL with parameters to disable ads and related videos
+  // rel=0 - disables related videos at the end
+  // modestbranding=1 - minimal YouTube branding
+  // fs=1 - allow fullscreen
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&fs=1`;
 
   return (
-    <>
-      {!videoId ? (
-        <></>
-      ) : (
-        <a
-          className="w-full max-w-lg h-auto mx-auto block relative"
-          href={videoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <AspectRatio ratio={4 / 3}>
-            <img src={embedUrl} alt={title} title={title} width="100%" height="100%" />
-          </AspectRatio>
-          <div className="text-white absolute left-[calc(50%_-_37px)] top-[calc(50%_-_29px)] bg-destructive rounded-sm px-4 py-2">
-            <Play width={42} height={42} />
-          </div>
-        </a>
-      )}
-    </>
+    <div className="w-full max-w-4xl mx-auto h-auto">
+      <AspectRatio ratio={16 / 9}>
+        <iframe
+          className="w-full h-full rounded-lg"
+          src={embedUrl}
+          title={title}
+          allowFullScreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        />
+      </AspectRatio>
+    </div>
   );
 };
 

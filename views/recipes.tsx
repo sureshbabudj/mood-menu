@@ -8,6 +8,10 @@ import {
 } from "@/components/recipe-from";
 import { RecipeList } from "@/components/recipe-list";
 import { RecipeTags } from "@/components/recipe-tags";
+import {
+  HotRecipesSkeleton,
+  RecipeGridSkeleton,
+} from "@/components/loading/skeleton-components";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { moods } from "@/lib/data";
@@ -16,7 +20,7 @@ import { Recipe } from "@/orm/recipe.collection";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ChevronDown, Zap } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const getErrorMessage = (error: unknown, fallback: string) => {
   if (error instanceof Error && error.message) {
@@ -39,6 +43,7 @@ export default function Recipes() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   function getUniqueRecipes(recipes: Recipe[]): Recipe[] {
     const uniqueRecipes = new Map<string, Recipe>();
@@ -52,19 +57,20 @@ export default function Recipes() {
     async function fetchRecipes(
       ingredients: string[],
       category: string,
-      cuisine: string
+      cuisine: string,
     ) {
       try {
+        setIsInitialLoading(true);
         const [{ meals: res1 }, { meals: res2 }, { meals: res3 }] =
           (await Promise.all([
             fetch(
-              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}&c=${category}&i=${ingredients[0]}`
+              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}&c=${category}&i=${ingredients[0]}`,
             ).then((res) => res.json()),
             fetch(
-              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}&c=${category}&i=${ingredients[1]}`
+              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}&c=${category}&i=${ingredients[1]}`,
             ).then((res) => res.json()),
             fetch(
-              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}&c=${category}&i=${ingredients[2]}`
+              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine}&c=${category}&i=${ingredients[2]}`,
             ).then((res) => res.json()),
           ])) as { meals: Recipe[] }[];
         const result = getUniqueRecipes([...res1, ...res2, ...res3]);
@@ -77,9 +83,11 @@ export default function Recipes() {
           variant: "destructive",
           description: getErrorMessage(
             error,
-            "Internal error while fetching recipes."
+            "Internal error while fetching recipes.",
           ),
         });
+      } finally {
+        setIsInitialLoading(false);
       }
     }
 
@@ -130,41 +138,95 @@ export default function Recipes() {
         {/* Hero Section */}
         <div className="relative py-12 space-y-4 overflow-hidden">
           <div className="absolute -top-20 -right-32 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
-          
+
           <div className="relative space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium animate-bounce-subtle">
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium animate-bounce-subtle"
+              style={{
+                animation:
+                  "fade-in 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+                opacity: 0,
+              }}
+            >
               <span className="animate-pulse">✨</span>
               <span>Discovery Mode</span>
             </div>
-            
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white tracking-tight">
-              Feeling <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-orange-300 to-orange-400">{mood}?</span>
+
+            <h1
+              className="text-5xl md:text-6xl font-extrabold text-white tracking-tight"
+              style={{
+                animation:
+                  "fade-in 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+                opacity: 0,
+                animationDelay: "100ms",
+              }}
+            >
+              Feeling{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-orange-300 to-orange-400">
+                {mood}?
+              </span>
             </h1>
-            
-            <p className="text-lg text-slate-300 max-w-2xl">
-              We&apos;ve found <span className="font-bold text-orange-400">{hotRecipes.length + recipes.length} amazing recipes</span> crafted perfectly for your vibe. Let&apos;s get cooking!
+
+            <p
+              className="text-lg text-slate-300 max-w-2xl"
+              style={{
+                animation:
+                  "fade-in 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+                opacity: 0,
+                animationDelay: "200ms",
+              }}
+            >
+              {isInitialLoading ? (
+                <span className="text-orange-400">
+                  Loading amazing recipes crafted for your vibe...
+                </span>
+              ) : (
+                <>
+                  We&apos;ve found{" "}
+                  <span className="font-bold text-orange-400">
+                    {hotRecipes.length + recipes.length} amazing recipes
+                  </span>{" "}
+                  crafted perfectly for your vibe. Let&apos;s get cooking!
+                </>
+              )}
             </p>
           </div>
         </div>
 
         {/* Tags & Filters */}
-        <div className="mb-12 space-y-6">
-          <RecipeTags
-            ingredients={ingredients}
-            cuisine={cuisine!}
-            category={dietaryPreference!}
-          />
-        </div>
-
-        {/* Hot Recipes Section */}
-        {hotRecipes.length > 0 && (
-          <div className="mb-12">
-            <HotRecipes recipes={hotRecipes} />
+        {!isInitialLoading && (
+          <div className="mb-12 space-y-6">
+            <RecipeTags
+              ingredients={ingredients}
+              cuisine={cuisine!}
+              category={dietaryPreference!}
+            />
           </div>
         )}
 
+        {/* Hot Recipes Section */}
+        {isInitialLoading ? (
+          <div className="mb-12">
+            <HotRecipesSkeleton />
+          </div>
+        ) : hotRecipes.length > 0 ? (
+          <div className="mb-12">
+            <HotRecipes recipes={hotRecipes} />
+          </div>
+        ) : null}
+
         {/* Featured Recipes Section */}
-        {current.length > 0 && (
+        {isInitialLoading ? (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="h-1 w-12 bg-linear-to-r from-orange-400 to-orange-300 rounded-full" />
+              <h2 className="text-3xl font-semibold font-sourgummy text-white">
+                Featured Recipes
+              </h2>
+            </div>
+            <RecipeGridSkeleton count={12} />
+          </div>
+        ) : current.length > 0 ? (
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-1 w-12 bg-linear-to-r from-orange-400 to-orange-300 rounded-full" />
@@ -174,10 +236,10 @@ export default function Recipes() {
             </div>
             <RecipeList recipes={current} />
           </div>
-        )}
+        ) : null}
 
         {/* Load More Button */}
-        {hasMore && (
+        {!isInitialLoading && hasMore && (
           <div className="flex justify-center mt-12">
             <Button
               onClick={handleLoadMore}
@@ -193,7 +255,10 @@ export default function Recipes() {
                 ) : (
                   <>
                     Discover More Recipes
-                    <ChevronDown className="group-hover:translate-y-1 transition-transform" size={20} />
+                    <ChevronDown
+                      className="group-hover:translate-y-1 transition-transform"
+                      size={20}
+                    />
                   </>
                 )}
               </span>
@@ -202,16 +267,25 @@ export default function Recipes() {
         )}
 
         {/* No Results State */}
-        {current.length === 0 && hotRecipes.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-2xl font-bold text-white mb-2">No recipes found</h3>
-            <p className="text-primary-foreground mb-6">Try adjusting your mood or preferences</p>
-            <Button asChild className="bg-orange-500 hover:bg-orange-400 text-white rounded-full">
-              <Link href="/">Back to Discovery</Link>
-            </Button>
-          </div>
-        )}
+        {!isInitialLoading &&
+          current.length === 0 &&
+          hotRecipes.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-2xl font-bold text-white mb-2">
+                No recipes found
+              </h3>
+              <p className="text-primary-foreground mb-6">
+                Try adjusting your mood or preferences
+              </p>
+              <Button
+                asChild
+                className="bg-orange-500 hover:bg-orange-400 text-white rounded-full"
+              >
+                <Link href="/">Back to Discovery</Link>
+              </Button>
+            </div>
+          )}
       </div>
     </div>
   );

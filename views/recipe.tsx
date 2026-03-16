@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import RecipeDetails from "@/components/recipe-details";
+import { RecipeDetailsSkeleton } from "@/components/loading/skeleton-components";
 
 export interface RecipeDetail {
   idMeal: string;
@@ -66,6 +67,7 @@ export default function Recipe() {
   const router = useRouter();
   const id = Number(mealId);
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getIngredients = (r: RecipeDetail) => {
     const list: string[] = [];
@@ -79,35 +81,43 @@ export default function Recipe() {
     return list;
   };
 
-  const recipeSchema = recipe ? {
-    "@context": "https://schema.org/",
-    "@type": "Recipe",
-    "name": recipe.strMeal,
-    "image": [recipe.strMealThumb],
-    "author": {
-      "@type": "Organization",
-      "name": "MoodMenu"
-    },
-    "description": recipe.strInstructions.substring(0, 160) + "...",
-    "recipeCategory": recipe.strCategory,
-    "recipeCuisine": recipe.strArea,
-    "recipeIngredient": getIngredients(recipe),
-    "recipeInstructions": recipe.strInstructions.split('\r\n').filter(i => i.trim() !== '').map(instruction => ({
-      "@type": "HowToStep",
-      "text": instruction
-    }))
-  } : null;
+  const recipeSchema = recipe
+    ? {
+        "@context": "https://schema.org/",
+        "@type": "Recipe",
+        name: recipe.strMeal,
+        image: [recipe.strMealThumb],
+        author: {
+          "@type": "Organization",
+          name: "MoodMenu",
+        },
+        description: recipe.strInstructions.substring(0, 160) + "...",
+        recipeCategory: recipe.strCategory,
+        recipeCuisine: recipe.strArea,
+        recipeIngredient: getIngredients(recipe),
+        recipeInstructions: recipe.strInstructions
+          .split("\r\n")
+          .filter((i) => i.trim() !== "")
+          .map((instruction) => ({
+            "@type": "HowToStep",
+            text: instruction,
+          })),
+      }
+    : null;
 
   useEffect(() => {
     async function fetchRecipe(id: number) {
       try {
+        setIsLoading(true);
         const response = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
         );
         const result = (await response.json()) as { meals: RecipeDetail[] };
         setRecipe(result.meals[0]);
       } catch {
         router.push("/");
+      } finally {
+        setIsLoading(false);
       }
     }
     if (id) {
@@ -119,7 +129,11 @@ export default function Recipe() {
 
   return (
     <>
-      {recipe && (
+      {isLoading ? (
+        <div className="container mx-auto max-w-4xl px-4 py-8">
+          <RecipeDetailsSkeleton />
+        </div>
+      ) : recipe ? (
         <>
           {recipeSchema && (
             <script
@@ -129,7 +143,7 @@ export default function Recipe() {
           )}
           <RecipeDetails recipe={recipe} />
         </>
-      )}
+      ) : null}
     </>
   );
 }

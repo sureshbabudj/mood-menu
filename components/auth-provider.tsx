@@ -88,11 +88,9 @@ export function Auth({ children }: PropsWithChildren) {
         initialized = true;
         setInitializing(false);
 
-        // Redirect to home if user just signed in and is not on an auth page
-        if (user && !pathname?.startsWith("/auth") && pathname !== "/") {
-          router.push("/");
-        } else if (user && pathname?.startsWith("/auth")) {
-          // Redirect authenticated users away from auth pages
+        // Only redirect authenticated users away from auth pages
+        // Don't redirect from other pages like /favorites, /recipes, /account etc.
+        if (user && pathname?.startsWith("/auth")) {
           router.push("/");
         }
       }
