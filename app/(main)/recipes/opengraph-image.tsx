@@ -11,19 +11,40 @@ export const contentType = "image/png";
 
 export default async function Image({
   params,
+  searchParams,
 }: {
-  params: Promise<{ mood?: string; cuisine?: string; diet?: string }>;
-}) {
-  const resolvedParams = await params;
-  const mood = resolvedParams.mood
-    ? resolvedParams.mood.charAt(0).toUpperCase() + resolvedParams.mood.slice(1)
+  params?: Promise<{ mood?: string; cuisine?: string; diet?: string }>;
+  searchParams?: Promise<{ mood?: string; cuisine?: string; diet?: string }>;
+} = {}) {
+  let resolvedParams = {};
+  let resolvedSearchParams = {};
+
+  try {
+    if (params) resolvedParams = await params;
+    if (searchParams) resolvedSearchParams = await searchParams;
+  } catch {
+    // Handle runtime errors gracefully
+  }
+
+  const moodValue =
+    (resolvedParams as any)?.mood ||
+    (resolvedSearchParams as any)?.mood ||
+    "Your Mood";
+  const cuisineValue =
+    (resolvedParams as any)?.cuisine ||
+    (resolvedSearchParams as any)?.cuisine ||
+    "";
+  const dietValue =
+    (resolvedParams as any)?.diet || (resolvedSearchParams as any)?.diet || "";
+
+  const mood = moodValue?.charAt
+    ? moodValue.charAt(0).toUpperCase() + moodValue.slice(1)
     : "Your Mood";
-  const cuisine = resolvedParams.cuisine
-    ? resolvedParams.cuisine.charAt(0).toUpperCase() +
-      resolvedParams.cuisine.slice(1)
+  const cuisine = cuisineValue?.charAt
+    ? cuisineValue.charAt(0).toUpperCase() + cuisineValue.slice(1)
     : "";
-  const diet = resolvedParams.diet
-    ? resolvedParams.diet.charAt(0).toUpperCase() + resolvedParams.diet.slice(1)
+  const diet = dietValue?.charAt
+    ? dietValue.charAt(0).toUpperCase() + dietValue.slice(1)
     : "";
 
   const moodEmoji: Record<string, string> = {
@@ -37,7 +58,8 @@ export default async function Image({
     energetic: "⚡",
   };
 
-  const emoji = moodEmoji[resolvedParams.mood || ""] || "🍽️";
+  const selectedMood = (moodValue || "").toLowerCase();
+  const emoji = moodEmoji[selectedMood] || "🍽️";
 
   return new ImageResponse(
     <div

@@ -11,12 +11,27 @@ export const contentType = "image/png";
 
 export default async function Image({
   params,
+  searchParams,
 }: {
-  params: Promise<{ mood?: string }>;
-}) {
-  const resolvedParams = await params;
-  const mood = resolvedParams.mood
-    ? resolvedParams.mood.charAt(0).toUpperCase() + resolvedParams.mood.slice(1)
+  params?: Promise<{ mood?: string }>;
+  searchParams?: Promise<{ mood?: string }>;
+} = {}) {
+  let resolvedParams = {};
+  let resolvedSearchParams = {};
+
+  try {
+    if (params) resolvedParams = await params;
+    if (searchParams) resolvedSearchParams = await searchParams;
+  } catch {
+    // Handle runtime errors gracefully
+  }
+
+  const moodValue =
+    (resolvedParams as any)?.mood ||
+    (resolvedSearchParams as any)?.mood ||
+    "Your Mood";
+  const mood = moodValue?.charAt
+    ? moodValue.charAt(0).toUpperCase() + moodValue.slice(1)
     : "Your Mood";
 
   const moodEmoji: Record<string, string> = {
@@ -30,7 +45,8 @@ export default async function Image({
     energetic: "⚡",
   };
 
-  const emoji = moodEmoji[resolvedParams.mood || ""] || "🍽️";
+  const selectedMood = (moodValue || "").toLowerCase();
+  const emoji = moodEmoji[selectedMood] || "🍽️";
 
   return new ImageResponse(
     <div

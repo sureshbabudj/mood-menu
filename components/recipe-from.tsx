@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -92,11 +92,15 @@ export function RecipeForm({
     setTimeout(() => setShowCelebration(false), 600);
   };
 
-  const formProgress = [
-    form.watch("mood") ? 1 : 0,
-    form.watch("cuisine") ? 1 : 0,
-    form.watch("dietaryPreference") ? 1 : 0,
-  ].reduce((a, b) => a + b, 0);
+  const mood = useWatch({ control: form.control, name: "mood" });
+  const cuisineWatch = useWatch({ control: form.control, name: "cuisine" });
+  const dietaryPreference = useWatch({
+    control: form.control,
+    name: "dietaryPreference",
+  });
+  const formProgress = [mood, cuisineWatch, dietaryPreference].filter(
+    Boolean,
+  ).length;
 
   const moodEmojis: Record<string, string> = {
     Happy: "😊",

@@ -1,5 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+# Optimize crawl budget
+Crawl-delay: 0.5
+
+# Sitemap
+Sitemap: https://moodmenu.kanini.top/sitemap.xml
 Disallow: /account
 Disallow: /favorites
 Disallow: /auth/
