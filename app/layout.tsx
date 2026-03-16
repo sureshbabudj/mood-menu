@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Karla, Sour_Gummy} from "next/font/google";
+import { Plus_Jakarta_Sans, Sour_Gummy } from "next/font/google";
 
 import { AppProviders } from "./providers";
 import "./styles.css";
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
   },
 };
 
-const karla = Karla({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-karla",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-plus-jakarta",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const sourGummy = Sour_Gummy({
@@ -54,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${karla.variable} ${sourGummy.variable}`}>
+      <body className={`${plusJakarta.variable} ${sourGummy.variable}`}>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

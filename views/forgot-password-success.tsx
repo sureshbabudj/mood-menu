@@ -1,18 +1,19 @@
-import { AuthLayoutTitle } from "@/components/auth-layout";
 import Link from "next/link";
 
 export function ForgotPasswordSuccess() {
   return (
-    <>
-      <AuthLayoutTitle className="py-4">
-        <p className="text-5xl text-center py-5">🚀</p>
-        <h2 className="mb-8 text-2xl text-cyan-900 font-bold text-center">
-          Password reset successfully!
-        </h2>
-      </AuthLayoutTitle>
-      <div className="my-4 text-center text-primary hover:text-emerald-500">
-        <Link href="/">Go back to Home</Link>
-      </div>
-    </>
+    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center justify-center gap-5 bg-card p-8 text-center">
+      <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 text-3xl">✅</div>
+      <h1 className="text-2xl font-extrabold">Password reset complete</h1>
+      <p className="text-sm text-muted-foreground">
+        Your password has been updated successfully. Continue exploring your mood-based meals.
+      </p>
+      <Link
+        href="/"
+        className="inline-flex h-11 items-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground"
+      >
+        Go to Home
+      </Link>
+    </div>
   );
 }

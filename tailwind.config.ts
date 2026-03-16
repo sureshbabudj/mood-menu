@@ -13,12 +13,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Karla", "ui-sans-serif", "system-ui"],
-        serif: ["Karla", "ui-serif", "Georgia"],
+        sans: ["var(--font-plus-jakarta)", "ui-sans-serif", "system-ui"],
+        serif: ["var(--font-plus-jakarta)", "ui-serif", "Georgia"],
         mono: ["ui-monospace", "SFMono-Regular"],
-        display: ["Oswald"],
-        body: ["Karla"],
-        sourgummy: ["Sour Gummy"],
+        display: ["var(--font-plus-jakarta)", "ui-sans-serif", "system-ui"],
+        body: ["var(--font-plus-jakarta)", "ui-sans-serif", "system-ui"],
+        sourgummy: ["var(--font-sourgummy)", "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",

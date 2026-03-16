@@ -47,59 +47,56 @@ export default function ResetPassword() {
         !confirmPassword ||
         typeof confirmPassword !== "string"
       ) {
-        throw new Error("Enter the valid password");
+        throw new Error("Enter a valid password");
       }
 
       if (newPassword !== confirmPassword) {
-        throw new Error("Confirm the new password twice");
+        throw new Error("Confirm password does not match");
       }
 
       await confirmPasswordReset(auth, oobCode, newPassword);
       router.push("/");
-    } catch (e: unknown) {
+    } catch (error: unknown) {
       toast({
-        description: getErrorMessage(
-          e,
-          "Failed to update password. Please try again."
-        ),
-        title: "Error:",
+        description: getErrorMessage(error, "Failed to update password. Please try again."),
+        title: "Error",
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
   };
-  return (
-    <>
-      <AuthLayoutTitle className="py-4">
-        <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-          Reset your password to log in to{" "}
-          <span className="font-sourgummy">MoodMenu</span>.
-        </h2>
-      </AuthLayoutTitle>
-      <form onSubmit={handleResetPassword}>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="newPassword">New Password</Label>
-            <Input name="newPassword" type="password" required />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input name="confirmPassword" type="password" required />
-          </div>
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className={cn("w-full", { "pointer-events-none": isLoading })}
-          >
-            {isLoading ? "Updating..." : "Update password"}
-          </Button>
 
-          <div className="my-4 text-center text-primary">
-            <Link href="/auth/login">Go back to log in</Link>
-          </div>
+  return (
+    <div className="flex min-h-dvh flex-col bg-background">
+      <div className="p-5">
+        <AuthLayoutTitle>
+          <p className="text-2xl font-extrabold">Reset your password</p>
+          <p className="text-sm text-muted-foreground">Set a new password to continue.</p>
+        </AuthLayoutTitle>
+      </div>
+      <form onSubmit={handleResetPassword} className="space-y-4 p-5">
+        <div className="grid gap-2">
+          <Label htmlFor="newPassword">New Password</Label>
+          <Input name="newPassword" type="password" className="h-12 rounded-xl" required />
         </div>
+        <div className="grid gap-2">
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input name="confirmPassword" type="password" className="h-12 rounded-xl" required />
+        </div>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className={cn("h-12 w-full rounded-xl", { "pointer-events-none": isLoading })}
+        >
+          {isLoading ? "Updating..." : "Update password"}
+        </Button>
+        <p className="text-center text-sm text-muted-foreground">
+          <Link href="/auth/login" className="font-semibold text-primary hover:underline">
+            Back to login
+          </Link>
+        </p>
       </form>
-    </>
+    </div>
   );
 }

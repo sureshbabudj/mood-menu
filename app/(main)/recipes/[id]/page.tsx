@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Recipe from "@/views/recipe";
 
-export const dynamicParams = false;
+// Allow recipe IDs outside the prebuilt static set so links from results pages do not 404.
+export const dynamicParams = true;
 
 async function fetchRecipeById(id: string) {
   try {

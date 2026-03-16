@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useAtom } from "jotai";
+import Link from "next/link";
 
-import { RecipeList } from "@/components/recipe-list";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { favoritesAtom } from "@/lib/store";
@@ -19,47 +19,61 @@ const getErrorMessage = (error: unknown, fallback: string) => {
 export default function Favorites() {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
 
-  const fetchFavorites = async () => {
-    try {
-      const data = await getCurrentUserRecipes();
-      setFavorites(data);
-    } catch (error: unknown) {
-      toast({
-        title: "Error:",
-        description: getErrorMessage(error, "Error while fetching favorites."),
-      });
-    }
-  };
-
   useEffect(() => {
+    async function fetchFavorites() {
+      try {
+        const data = await getCurrentUserRecipes();
+        setFavorites(data);
+      } catch (error: unknown) {
+        toast({
+          title: "Error",
+          description: getErrorMessage(error, "Error while fetching favorites."),
+        });
+      }
+    }
+
     fetchFavorites();
-  }, []);
+  }, [setFavorites]);
 
   return (
-    <div className="container mx-auto max-sm:px-4 py-4">
-      <h3 className="font-sourgummy font-semibold text-xl mb-3">
-        🔥 Your Ultimate Go-To Recipes!
-      </h3>
-      <p className="text-base mb-6">
-        These are your top picks, saved and ready to inspire your next delicious
-        creation. Keep building your collection of flavor-packed favorites!
-      </p>
-      {favorites && favorites.length > 0 ? (
-        <RecipeList recipes={favorites} />
-      ) : (
-        <div className="rounded-lg border border-border bg-muted/30 p-6 text-center">
-          <p className="text-base text-muted-foreground">
-            No favorites yet. Save recipes you love, and they will appear here.
-          </p>
-        </div>
-      )}
+    <div className="mx-auto w-full max-w-3xl space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-2xl font-extrabold tracking-tight">Your Favorites</h1>
+        <p className="text-sm text-muted-foreground">
+          Recipes that match your mood perfectly.
+        </p>
+      </header>
 
-      <p className="text-lg my-6 text-center">
-        Didn&apos;t find what you were craving? <br />
-        <Button asChild className="my-2 text-center">
-          <a href="/">Head back and explore more recipes to love!</a>
-        </Button>
-      </p>
+      {favorites && favorites.length > 0 ? (
+        <div className="space-y-4">
+          {favorites.map((recipe) => (
+            <Link
+              href={`/recipes/${recipe.idMeal}`}
+              key={recipe.id}
+              className="group block overflow-hidden rounded-2xl border border-primary/10 bg-card shadow-sm"
+            >
+              <div
+                className="aspect-video w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-[1.02]"
+                style={{ backgroundImage: `url(${recipe.strMealThumb})` }}
+              />
+              <div className="space-y-1 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary">Saved Recipe</p>
+                <h2 className="text-lg font-bold leading-tight">{recipe.strMeal}</h2>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <section className="rounded-2xl border border-dashed border-primary/25 bg-primary/5 p-8 text-center">
+          <p className="text-xl font-bold">No favorites yet</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Start discovering recipes and tap the heart icon to save them here.
+          </p>
+          <Button asChild className="mt-5 rounded-xl">
+            <Link href="/">Discover Recipes</Link>
+          </Button>
+        </section>
+      )}
     </div>
   );
 }
