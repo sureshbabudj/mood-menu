@@ -5,10 +5,9 @@ import { Link, Outlet } from "react-router-dom";
 export function AuthLayoutTitle({
   children,
   className,
-  ...props
-}: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
+}: React.PropsWithChildren<{ className?: string }>) {
   return (
-    <Link to="/" className={cn("space-y-4", className)} {...props as any}>
+    <Link to="/" className={cn("space-y-4", className)}>
       <img
         src="/assets/logo.svg"
         loading="lazy"

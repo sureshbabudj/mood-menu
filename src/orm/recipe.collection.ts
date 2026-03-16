@@ -86,7 +86,6 @@ export const getRecipe = async (id: string): Promise<RecipeWithId | null> => {
   if (docSnap.exists() && docSnap.data().uid === currentUserUid) {
     return { id: docSnap.id, ...docSnap.data() } as RecipeWithId;
   } else {
-    console.log("No such document or permission denied!");
     return null;
   }
 };

@@ -11,9 +11,15 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
 } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+};
 
 export function SignInWithPassword({
   isLoading,
@@ -22,26 +28,29 @@ export function SignInWithPassword({
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }) {
-  const emailRef = React.useRef<any>(null);
+  const emailRef = React.useRef<HTMLInputElement | null>(null);
 
   const forgotPassword = async () => {
     try {
-      const email = emailRef.current?.value;
+      const email = emailRef.current?.value?.trim();
+      if (!email) {
+        throw new Error("Enter your email before requesting a password reset.");
+      }
       const actionCodeSettings = {
         url: `${process.env.HOST}/auth/forgot-password-success`,
       };
 
       await sendPasswordResetEmail(auth, email, actionCodeSettings);
       toast({
-        description: "We have a sent a email to reset the password",
+        description: "We sent a password reset link to your email.",
         title: "Success:",
       });
-    } catch (e: any) {
+    } catch (e: unknown) {
       toast({
-        description:
-          e.error_description ||
-          e.message ||
-          "Failed to sign in. Please try again.",
+        description: getErrorMessage(
+          e,
+          "Failed to send password reset email. Please try again."
+        ),
         title: "Error:",
         variant: "destructive",
       });
@@ -49,6 +58,7 @@ export function SignInWithPassword({
   };
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formData = new FormData(e.currentTarget);
       const email = formData.get("email");
@@ -63,12 +73,9 @@ export function SignInWithPassword({
       }
 
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (e: any) {
+    } catch (e: unknown) {
       toast({
-        description:
-          e.error_description ||
-          e.message ||
-          "Failed to sign in. Please try again.",
+        description: getErrorMessage(e, "Failed to sign in. Please try again."),
         title: "Error:",
         variant: "destructive",
       });
@@ -92,19 +99,25 @@ export function SignInWithPassword({
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
-            <Button variant="link" asChild onClick={forgotPassword}>
-              <a href="#" className="ml-auto inline-block text-sm underline">
+            <Button
+              type="button"
+              variant="link"
+              className="ml-auto px-0"
+              onClick={forgotPassword}
+            >
+              <span className="inline-block text-sm underline">
                 Forgot your password?
-              </a>
+              </span>
             </Button>
           </div>
           <Input name="password" type="password" required />
         </div>{" "}
         <Button
           type="submit"
+          disabled={isLoading}
           className={cn("w-full", { "pointer-events-none": isLoading })}
         >
-          Login
+          {isLoading ? "Logging in..." : "Log in"}
         </Button>
       </div>
     </form>
@@ -124,10 +137,9 @@ export function GoogleSignIn({
       const provider = new GoogleAuthProvider();
       // Swapping back to Redirect as per working commit 0e8d222
       await signInWithPopup(auth, provider);
-    } catch (error: any) {
-      console.error("Auth Error:", error);
+    } catch (error: unknown) {
       toast({
-        description: error.message || "Failed to sign in. Please try again.",
+        description: getErrorMessage(error, "Failed to sign in. Please try again."),
         title: "Error:",
         variant: "destructive",
       });
@@ -137,11 +149,14 @@ export function GoogleSignIn({
   };
   return (
     <button
+      type="button"
+      aria-label="Continue with Google"
       className={cn(
-        "h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100 flex items-center",
+        "h-12 px-6 border-2 border-border rounded-full bg-background transition-[background-color,border-color,transform] duration-200 ease-out hover:border-primary/50 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] flex items-center motion-reduce:transition-none motion-reduce:transform-none",
         { "pointer-events-none": isLoading }
       )}
       onClick={handleSignIn}
+      disabled={isLoading}
     >
       <svg
         viewBox="-0.5 0 48 48"
@@ -182,17 +197,20 @@ export function GoogleSignIn({
 
 export function GithubLogin({
   isLoading,
-  setIsLoading,
+  setIsLoading: _setIsLoading,
 }: {
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }) {
   return (
     <button
+      type="button"
+      aria-label="Continue with GitHub"
       className={cn(
-        "h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100",
+        "h-12 px-6 border-2 border-border rounded-full transition-[background-color,border-color,transform] duration-200 ease-out hover:border-primary/50 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none",
         { "pointer-events-none": isLoading }
       )}
+      disabled={isLoading}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -208,17 +226,20 @@ export function GithubLogin({
 
 export function FacebookLogin({
   isLoading,
-  setIsLoading,
+  setIsLoading: _setIsLoading,
 }: {
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }) {
   return (
     <button
+      type="button"
+      aria-label="Continue with Facebook"
       className={cn(
-        "h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100",
+        "h-12 px-6 border-2 border-border rounded-full transition-[background-color,border-color,transform] duration-200 ease-out hover:border-primary/50 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] motion-reduce:transition-none motion-reduce:transform-none",
         { "pointer-events-none": isLoading }
       )}
+      disabled={isLoading}
     >
       <svg
         viewBox="0 0 16 16"

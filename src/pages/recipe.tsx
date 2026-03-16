@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet-async";
 export interface RecipeDetail {
   idMeal: string;
   strMeal: string;
-  strDrinkAlternate: any;
+  strDrinkAlternate: string | null;
   strCategory: string;
   strArea: string;
   strInstructions: string;
@@ -55,9 +55,9 @@ export interface RecipeDetail {
   strMeasure19: string;
   strMeasure20: string;
   strSource: string;
-  strImageSource: any;
-  strCreativeCommonsConfirmed: any;
-  dateModified: any;
+  strImageSource: string | null;
+  strCreativeCommonsConfirmed: string | null;
+  dateModified: string | null;
 }
 
 export default function Recipe() {
@@ -67,7 +67,7 @@ export default function Recipe() {
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
 
   const getIngredients = (r: RecipeDetail) => {
-    const list = [];
+    const list: string[] = [];
     for (let i = 1; i <= 20; i++) {
       const ingredient = r[`strIngredient${i}` as keyof RecipeDetail];
       const measure = r[`strMeasure${i}` as keyof RecipeDetail];
@@ -105,8 +105,8 @@ export default function Recipe() {
         );
         const result = (await response.json()) as { meals: RecipeDetail[] };
         setRecipe(result.meals[0]);
-      } catch (error) {
-        console.error("Error fetching filters:", error);
+      } catch {
+        navigate("/");
       }
     }
     if (id) {

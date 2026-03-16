@@ -26,6 +26,8 @@
     --input: 112 30% 50%;
     --ring: 112 24.2% 62.7%;
     --radius: 1.2rem;
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   }
   .dark {
     --background: 112 50% 10%;
@@ -51,6 +53,75 @@
   }
 }
 
+@keyframes mm-card-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes mm-favorite-pop {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  45% {
+    transform: scale(1.14) rotate(-6deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.mm-recipe-card {
+  animation: mm-card-enter 420ms var(--ease-out-quart) both;
+  animation-delay: calc(var(--stagger, 0) * 42ms);
+  transition: transform 220ms var(--ease-out-quart),
+    box-shadow 220ms var(--ease-out-quart), background-color 220ms ease;
+  will-change: transform;
+}
+
+.mm-recipe-card:hover {
+  transform: translate3d(0, -2px, 0);
+}
+
+.mm-recipe-card:active {
+  transform: scale(0.996);
+}
+
+.mm-favorite-icon-pop {
+  animation: mm-favorite-pop 240ms var(--ease-out-quint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-recipe-card {
+    animation: none;
+    opacity: 0;
+    transform: none;
+    transition: opacity 140ms ease-out, background-color 140ms ease-out,
+      box-shadow 140ms ease-out;
+  }
+
+  .mm-recipe-card.mm-recipe-card-ready {
+    opacity: 1;
+  }
+
+  .mm-recipe-card:hover,
+  .mm-recipe-card:active {
+    transform: none;
+  }
+
+  .mm-favorite-icon-pop {
+    animation: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -63,6 +134,16 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: hsl(var(--primary) / 0.24);
+  color: hsl(var(--foreground));
 }
 
 .safe-area-padding {
@@ -78,7 +159,7 @@ html {
   left: 0;
   right: 0;
   z-index: 9999;
-  background-color: white;
+  background-color: hsl(var(--background));
   width: 100%;
 }
 
@@ -89,6 +170,22 @@ html {
   bottom: 0;
   left: 0;
   z-index: 9999;
-  background-color: white;
+  background-color: hsl(var(--background));
   width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 120ms !important;
+    animation-iteration-count: 1 !important;
+    animation-timing-function: linear !important;
+    transition-duration: 120ms !important;
+    transition-timing-function: linear !important;
+  }
 }

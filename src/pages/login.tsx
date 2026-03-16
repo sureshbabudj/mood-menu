@@ -13,7 +13,7 @@ export default function Login() {
           Sign in to unlock the <br /> best of{" "}
           <span className="font-sourgummy">MoodMenu</span>.
           <div className="text-lg">
-            Do not have account,{" "}
+            Don&apos;t have an account?{" "}
             <Link to="/auth/register" className="text-primary">
               Register here
             </Link>

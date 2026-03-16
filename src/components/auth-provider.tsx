@@ -49,20 +49,17 @@ export function Auth({ children }: PropsWithChildren) {
     getRedirectResult(auth)
       .then((result) => {
         if (mounted && result) {
-          console.log("Auth Provider: Redirect result handled successfully");
           const credential = GoogleAuthProvider.credentialFromResult(result);
           setSession(processInfo(result.user, credential?.accessToken || undefined));
         }
       })
-      .catch((error) => {
-        console.error("Auth Provider: Redirect error", error);
+      .catch(() => {
+        // Ignore redirect errors here. The app still relies on onAuthStateChanged.
       });
 
     // Standard observer for auth state changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!mounted) return;
-      
-      console.log("Auth Provider: ", user ? `User (${user.email}) is logged in` : "No active session");
       
       // Keep it "sticky" like in 0e8d222
       if (session?.user && user && session.user.uid === user.uid) {

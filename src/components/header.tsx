@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import Greeting from "./greeting";
-import { ChevronLeft, Info, LogIn, LogOut, Search, User } from "lucide-react";
+import { ChevronLeft, Info, LogIn, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HeartIcon } from "./bottom-nav-bar";
@@ -38,7 +38,7 @@ const Header = ({
           <div className="font-sourgummy text-2xl lg:text-3xl text-emerald-600 font-black leading-4 lg:leading-5 hidden sm:block">
             Mood
             <br />
-            <span className="text-gray-600">Menu</span>
+            <span className="text-muted-foreground">Menu</span>
           </div>
         </Link>
         <div className="hidden sm:block grow" />
@@ -47,6 +47,7 @@ const Header = ({
             size="icon"
             variant="ghost"
             className=" sm:hidden"
+            aria-label="Go back"
             onClick={() => navigate(-1)}
           >
             <ChevronLeft />
@@ -60,13 +61,13 @@ const Header = ({
           className="hidden sm:inline-flex text-red-500"
           asChild
         >
-          <Link to="/info">
+          <Link to="/info" aria-label="Information">
             <Info />
           </Link>
         </Button>
 
         <Button size="icon" variant="ghost" className="text-pink-500" asChild>
-          <Link to="/favorites">
+          <Link to="/favorites" aria-label="Favorites">
             <HeartIcon />{" "}
           </Link>
         </Button>
@@ -76,7 +77,7 @@ const Header = ({
           asChild
           className="text-emerald-600"
         >
-          <Link to="/">
+          <Link to="/" aria-label="Search recipes">
             <Search />
           </Link>
         </Button>
@@ -130,7 +131,7 @@ const Header = ({
                   className="text-destructive"
                   onClick={() => auth.signOut()}
                 >
-                  Logout
+                  Sign out
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
@@ -139,7 +140,7 @@ const Header = ({
           <Button variant="secondary" asChild>
             <Link to="/auth/login">
               <LogIn className="w-4 h-4" />
-              <span className="hidden md:block">Login</span>
+              <span className="hidden md:block">Log in</span>
             </Link>
           </Button>
         )}

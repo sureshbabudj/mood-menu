@@ -50,7 +50,6 @@ function AppRouter() {
 
   useEffect(() => {
     if (session?.user && isAuthRoute) {
-      console.log("AppRouter: User authenticated, redirecting to home...");
       navigate("/", { replace: true });
     }
   }, [session?.user, isAuthRoute, navigate]);

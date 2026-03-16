@@ -1,4 +1,4 @@
-import {  Info, User } from "lucide-react";
+import { Info, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -24,19 +24,20 @@ export function BottomNavBar() {
   const navigate = useNavigate();
 
   return (
-    <div className=" bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600 sm:hidden">
+    <div className="bg-background border-t border-border sm:hidden">
       <div className="flex flex-row justify-around p-2">
         <Button
           size="icon"
           variant="ghost"
-          className="hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          aria-label="Home"
+          className="h-11 w-11 group"
           onClick={() => navigate("/")}
         >
           <svg
             className={cn(
-              "w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500",
+              "w-5 h-5 mb-1 text-muted-foreground group-hover:text-primary",
               location.pathname === "/"
-                ? "text-emerald-600 dark:text-emerald-500"
+                ? "text-primary"
                 : ""
             )}
             aria-hidden="true"
@@ -52,14 +53,15 @@ export function BottomNavBar() {
         <Button
           size="icon"
           variant="ghost"
-          className="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          aria-label="Favorites"
+          className="inline-flex h-11 w-11 flex-col items-center justify-center group"
           onClick={() => navigate("/favorites")}
         >
           <HeartIcon
             className={cn(
-              "w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500",
+              "w-5 h-5 mb-1 text-muted-foreground group-hover:text-primary",
               location.pathname === "/favorites"
-                ? "text-emerald-600 dark:text-emerald-500"
+                ? "text-primary"
                 : ""
             )}
           />
@@ -69,14 +71,15 @@ export function BottomNavBar() {
         <Button
           size="icon"
           variant="ghost"
-          className="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          aria-label="Information"
+          className="inline-flex h-11 w-11 flex-col items-center justify-center group"
           onClick={() => navigate("/info")}
         >
           <Info
             className={cn(
-              "w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500",
+              "w-5 h-5 mb-1 text-muted-foreground group-hover:text-primary",
               location.pathname === "/info"
-                ? "text-emerald-600 dark:text-emerald-500"
+                ? "text-primary"
                 : ""
             )}
           />
@@ -86,14 +89,15 @@ export function BottomNavBar() {
         <Button
           size="icon"
           variant="ghost"
-          className="inline-flex flex-col items-center justify-center p-4 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          aria-label="Account"
+          className="inline-flex h-11 w-11 flex-col items-center justify-center group"
           onClick={() => navigate("/account")}
         >
           <User
             className={cn(
-              "w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500",
+              "w-5 h-5 mb-1 text-muted-foreground group-hover:text-primary",
               location.pathname === "/account"
-                ? "text-emerald-600 dark:text-emerald-500"
+                ? "text-primary"
                 : ""
             )}
           />

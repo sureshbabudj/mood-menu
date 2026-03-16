@@ -10,6 +10,13 @@ import { toast } from "@/hooks/use-toast";
 import { LogOut, User, Lock, Mail } from "lucide-react";
 import SEO from "@/components/seo";
 
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+};
+
 export default function Account() {
   const session = useAtomValue(sessionAtom);
   const [loading, setLoading] = useState(false);
@@ -23,8 +30,12 @@ export default function Account() {
     try {
       await updateProfile(auth.currentUser, { displayName });
       toast({ title: "Success", description: "Profile updated successfully" });
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } catch (error: unknown) {
+      toast({
+        title: "Error",
+        description: getErrorMessage(error, "Failed to update profile."),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -38,8 +49,12 @@ export default function Account() {
       await updatePassword(auth.currentUser, newPassword);
       setNewPassword("");
       toast({ title: "Success", description: "Password updated successfully" });
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } catch (error: unknown) {
+      toast({
+        title: "Error",
+        description: getErrorMessage(error, "Failed to update password."),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -98,7 +113,7 @@ export default function Account() {
               />
             </div>
             <Button type="submit" variant="secondary" disabled={loading || !newPassword}>
-              Change Password
+                Change password
             </Button>
           </form>
         </section>
@@ -112,7 +127,7 @@ export default function Account() {
           onClick={() => auth.signOut()}
         >
           <LogOut className="w-4 h-4" />
-          Logout
+          Sign out
         </Button>
       </section>
     </div>

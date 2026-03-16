@@ -15,6 +15,13 @@ import { Recipe } from "@/orm/recipe.collection";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+};
+
 export default function Recipes() {
   const [params] = useSearchParams();
   const dietaryPreference = params.get("diet");
@@ -63,11 +70,14 @@ export default function Recipes() {
         setHotRecipes(result.slice(0, 5));
         setRecipes(result.slice(5));
         setPage(1);
-      } catch (error: any) {
+      } catch (error: unknown) {
         toast({
           title: "Error:",
           variant: "destructive",
-          description: error.message || "Internal Error while fetching recipes",
+          description: getErrorMessage(
+            error,
+            "Internal error while fetching recipes."
+          ),
         });
       }
     }

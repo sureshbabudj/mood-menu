@@ -7,6 +7,14 @@ import { auth } from "@/lib/firebaseClient";
 import { cn } from "@/lib/utils";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+};
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -25,18 +33,10 @@ export default function Register() {
       ) {
         throw new Error("validation failed");
       }
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log({ result });
-    } catch (e: any) {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (e: unknown) {
       toast({
-        description:
-          e.error_description ||
-          e.message ||
-          "Failed to update password. Please try again.",
+        description: getErrorMessage(e, "Failed to register. Please try again."),
         title: "Error:",
         variant: "destructive",
       });
@@ -71,12 +71,13 @@ export default function Register() {
           </div>
           <Button
             type="submit"
+            disabled={loading}
             className={cn("w-full", { "pointer-events-none": loading })}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </Button>
           <div className="my-4 text-center text-primary">
-            <a href="/auth/login">Go back to login</a>
+            <Link to="/auth/login">Go back to log in</Link>
           </div>
         </div>
       </form>

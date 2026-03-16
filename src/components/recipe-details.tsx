@@ -17,13 +17,16 @@ type RecipeDetailsProps = React.HTMLAttributes<HTMLDivElement> & {
 function processRecipeIngredients(recipe: RecipeDetail): Ingredient[] {
   const ingredients: Ingredient[] = [];
 
-  for (let i = 1; i <= 100; i++) {
-    const ingredientName = recipe[`strIngredient${i}` as keyof RecipeDetail];
-    const measure = recipe[`strMeasure${i}` as keyof RecipeDetail];
+  for (let i = 1; i <= 20; i++) {
+    const ingredientNameRaw = recipe[`strIngredient${i}` as keyof RecipeDetail];
+    const measureRaw = recipe[`strMeasure${i}` as keyof RecipeDetail];
 
-    if (!ingredientName || ingredientName.trim() === "") {
+    if (typeof ingredientNameRaw !== "string" || ingredientNameRaw.trim() === "") {
       break;
     }
+
+    const ingredientName = ingredientNameRaw.trim();
+    const measure = typeof measureRaw === "string" ? measureRaw.trim() : "";
 
     ingredients.push({
       name: ingredientName,

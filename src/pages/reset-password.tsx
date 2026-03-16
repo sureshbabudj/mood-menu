@@ -7,7 +7,14 @@ import { auth } from "@/lib/firebaseClient";
 import { cn } from "@/lib/utils";
 import { confirmPasswordReset } from "firebase/auth";
 import { useState } from "react";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+};
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -42,12 +49,12 @@ export default function ResetPassword() {
 
       await confirmPasswordReset(auth, oobCode, newPassword);
       navigate("/");
-    } catch (e: any) {
+    } catch (e: unknown) {
       toast({
-        description:
-          e.error_description ||
-          e.message ||
-          "Failed to update password. Please try again.",
+        description: getErrorMessage(
+          e,
+          "Failed to update password. Please try again."
+        ),
         title: "Error:",
         variant: "destructive",
       });
@@ -59,29 +66,30 @@ export default function ResetPassword() {
     <>
       <AuthLayoutTitle className="py-4">
         <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-          Reset the password.. to login{" "}
+          Reset your password to log in to{" "}
           <span className="font-sourgummy">MoodMenu</span>.
         </h2>
       </AuthLayoutTitle>
       <form onSubmit={handleResetPassword}>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">New Password</Label>
+            <Label htmlFor="newPassword">New Password</Label>
             <Input name="newPassword" type="password" required />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
             <Input name="confirmPassword" type="password" required />
           </div>
           <Button
             type="submit"
+            disabled={isLoading}
             className={cn("w-full", { "pointer-events-none": isLoading })}
           >
-            Update Password
+            {isLoading ? "Updating..." : "Update password"}
           </Button>
 
           <div className="my-4 text-center text-primary">
-            <a href="/auth/login">Go back to login</a>
+            <Link to="/auth/login">Go back to log in</Link>
           </div>
         </div>
       </form>

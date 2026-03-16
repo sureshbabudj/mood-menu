@@ -19,7 +19,7 @@ export function getRandom<T>(arr: T[], n: number): T[] {
   return result;
 }
 
-export function debounce<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: unknown[]) => void>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {

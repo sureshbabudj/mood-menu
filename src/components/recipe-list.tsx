@@ -16,9 +16,18 @@ import {
   RecipeWithId,
 } from "@/orm/recipe.collection";
 
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+};
+
 export function RecipeList({ recipes }: { recipes: Recipe[] }) {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [favLoading, setFavLoading] = useState("");
+  const [readyForReducedMotion, setReadyForReducedMotion] = useState(false);
+  const [favoritePopId, setFavoritePopId] = useState("");
   const session = useAtomValue(sessionAtom);
   const navigate = useNavigate();
 
@@ -34,14 +43,12 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
       setFavLoading(recipe.idMeal);
       const userId = user.uid;
 
-      const docRef = await addRecipe({
+      await addRecipe({
         idMeal: recipe.idMeal,
         strMeal: recipe.strMeal,
         strMealThumb: recipe.strMealThumb,
         uid: userId,
       });
-
-      console.log({ docRef });
       await fetchFavorites();
 
       toast({
@@ -49,12 +56,14 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
         description:
           recipe.strMeal + " Recipe added to favorites successfully!",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error:",
         variant: "destructive",
-        description:
-          error.message || "Internal Error while adding your favorite recipe",
+        description: getErrorMessage(
+          error,
+          "Internal error while adding your favorite recipe."
+        ),
       });
     } finally {
       setFavLoading("");
@@ -69,11 +78,11 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
         title: "Success:",
         description: "The recipe has been unmarked as favorite",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error:",
         variant: "destructive",
-        description: error.message || "Something went wrong!",
+        description: getErrorMessage(error, "Something went wrong."),
       });
     } finally {
       setFavLoading("");
@@ -85,12 +94,12 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
     try {
       const newFav = await getCurrentUserRecipes();
       setFavorites(newFav);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setFavorites([]);
       toast({
         title: "Error:",
         variant: "destructive",
-        description: error.message || "Something went wrong!",
+        description: getErrorMessage(error, "Something went wrong."),
       });
     }
   };
@@ -103,10 +112,15 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
     }
   }, [session]);
 
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setReadyForReducedMotion(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   return (
     <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 sm:gap-4 md:gap-6 lg:gap-8">
       {favorites &&
-        recipes.map((recipe) => {
+        recipes.map((recipe, index) => {
           const favoriteItem = favorites.find(
             ({ idMeal }) => recipe.idMeal === idMeal
           );
@@ -116,7 +130,13 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
               title={recipe.strMeal}
               href={`/recipes/${recipe.idMeal}`}
               key={recipe.idMeal}
-              className="break-inside-avoid border border-muted block rounded-md bg-muted hover:bg-gray-50 shadow-lg mb-6 p-4 pb-0"
+              className={cn(
+                "mm-recipe-card break-inside-avoid border border-muted block rounded-md bg-muted/80 hover:bg-muted shadow-lg mb-6 p-4 pb-0",
+                {
+                  "mm-recipe-card-ready": readyForReducedMotion,
+                }
+              )}
+              style={{ "--stagger": index % 10 } as React.CSSProperties}
             >
               <AspectRatio ratio={16 / 9}>
                 <img
@@ -131,9 +151,16 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
                 <Button
                   size="icon"
                   variant="ghost"
+                  aria-label={
+                    favoriteItem
+                      ? `Remove ${recipe.strMeal} from favorites`
+                      : `Add ${recipe.strMeal} to favorites`
+                  }
                   onClick={(e) => {
                     e.preventDefault();
                     setFavLoading(recipe.idMeal);
+                    setFavoritePopId(recipe.idMeal);
+                    window.setTimeout(() => setFavoritePopId(""), 260);
                     !favoriteItem
                       ? markFavorite(recipe)
                       : removeFavorite(favoriteItem);
@@ -152,6 +179,7 @@ export function RecipeList({ recipes }: { recipes: Recipe[] }) {
                         height={12}
                         className={cn("text-pink-600", {
                           "pointer-events-none": favLoading,
+                          "mm-favorite-icon-pop": favoritePopId === recipe.idMeal,
                         })}
                       />
                     )}
