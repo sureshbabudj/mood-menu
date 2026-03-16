@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [containerHeight, setContainerHeight] = useState(0);
   const [mobileContainerHeight, setMobileContainerHeight] = useState(0);
   const [bottomBarHeight, setBottomBarHeight] = useState(0);
-  
+
   const updateHeights = () => {
     if (headerRef.current && footerRef.current) {
       setContainerHeight(
@@ -40,11 +40,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const defaultHeight = `100dvh - env(safe-area-inset-top) - env(safe-area-inset-top)`;
   return (
     <>
-      <div ref={headerRef} className="lg:mx-4">
+      <div ref={headerRef}>
         <Header />
       </div>
       <main
-        className="min-h-[var(--mobile-outlet-height)] max-sm:pb-[var(--bottom-bar-height)] sm:min-h-[var(--outlet-height)]"
+        className="min-h-(--mobile-outlet-height) max-sm:pb-(--bottom-bar-height) sm:min-h-(--outlet-height)"
         style={
           {
             "--outlet-height": `calc(${defaultHeight} - ${containerHeight}px)`,

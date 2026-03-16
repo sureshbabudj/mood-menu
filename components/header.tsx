@@ -13,7 +13,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -46,15 +45,18 @@ const Header = ({
             { "hidden sm:flex": !isHomePage },
           )}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/logo.svg"
             alt="logo"
-            className="w-7 h-7 lg:w-9 lg:h-9 "
+            className="w-5 h-6 lg:w-7 lg:h-7"
           />
 
           <div className="font-sourgummy text-xl lg:text-2xl leading-none hidden sm:block">
-            <span className="text-orange-400 font-black tracking-tight">Mood</span>
-            <span className="text-orange-300 font-bold block -mt-1\">Menu</span>
+            <span className="text-orange-400 font-black tracking-tight">
+              Mood
+            </span>
+            <span className="text-orange-300 font-bold -mt-1\">Menu</span>
           </div>
         </Link>
 
