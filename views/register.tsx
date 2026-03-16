@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { createUserWithEmailAndPassword, Auth } from "firebase/auth";
 import { useState } from "react";
 import Link from "next/link";
+import { SignInAgreement } from "./signin-agreement";
 
 const getErrorMessage = (error: unknown, fallback: string) => {
   if (error instanceof Error && error.message) {
@@ -38,7 +39,10 @@ export default function Register() {
       await createUserWithEmailAndPassword(auth as Auth, email, password);
     } catch (e: unknown) {
       toast({
-        description: getErrorMessage(e, "Failed to register. Please try again."),
+        description: getErrorMessage(
+          e,
+          "Failed to register. Please try again.",
+        ),
         title: "Error:",
         variant: "destructive",
       });
@@ -50,7 +54,7 @@ export default function Register() {
     <>
       <AuthLayoutTitle className="py-4">
         <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-          Register to get the best of {" "}
+          Register to get the best of{" "}
           <span className="font-sourgummy">MoodMenu</span>.
         </h2>
       </AuthLayoutTitle>
@@ -83,6 +87,7 @@ export default function Register() {
           </div>
         </div>
       </form>
+      <SignInAgreement />
     </>
   );
 }
