@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Recipes from "@/views/recipes";
 
+export const dynamic = "force-dynamic";
+
 type RecipesSearchParams = {
   mood?: string;
   cuisine?: string;

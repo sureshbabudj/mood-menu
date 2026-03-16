@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { auth } from "@/lib/firebaseClient";
 import { cn } from "@/lib/utils";
-import { confirmPasswordReset } from "firebase/auth";
+import { confirmPasswordReset, Auth } from "firebase/auth";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ export default function ResetPassword() {
         throw new Error("Confirm the new password twice");
       }
 
-      await confirmPasswordReset(auth, oobCode, newPassword);
+      await confirmPasswordReset(auth as Auth, oobCode, newPassword);
       router.push("/");
     } catch (e: unknown) {
       toast({

@@ -23,25 +23,31 @@ const firebaseConfig = {
     process.env.NEXT_PUBLIC_MEASUREMENT_ID ?? process.env.MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+// Check if we're in browser environment
 const isBrowser = typeof window !== "undefined";
-export const analytics =
-  typeof window !== "undefined" ? getAnalytics(app) : undefined;
-export const auth = isBrowser
-  ? initializeAuth(app, {
-      persistence: browserLocalPersistence,
-      popupRedirectResolver: browserPopupRedirectResolver,
-    })
-  : getAuth(app);
-export const db = getFirestore(app);
 
-if (
-  process.env.NEXT_PUBLIC_USE_EMULATOR === "true" ||
-  process.env.USE_EMULATOR === "true"
-) {
-  if (isBrowser) {
+// Initialize Firebase only in browser
+let app: ReturnType<typeof initializeApp> | null = null;
+let auth: ReturnType<typeof initializeAuth | typeof getAuth> | null = null;
+let db: ReturnType<typeof getFirestore> | null = null;
+let analytics: ReturnType<typeof getAnalytics> | undefined = undefined;
+
+if (isBrowser) {
+  app = initializeApp(firebaseConfig);
+  analytics = getAnalytics(app);
+  auth = initializeAuth(app, {
+    persistence: browserLocalPersistence,
+    popupRedirectResolver: browserPopupRedirectResolver,
+  });
+  db = getFirestore(app);
+
+  if (
+    process.env.NEXT_PUBLIC_USE_EMULATOR === "true" ||
+    process.env.USE_EMULATOR === "true"
+  ) {
     connectFirestoreEmulator(db, "localhost", 6767);
     connectAuthEmulator(auth, "http://localhost:9099");
   }
 }
+
+export { app, auth, db, analytics };

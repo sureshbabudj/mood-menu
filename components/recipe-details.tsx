@@ -66,7 +66,7 @@ function Ingredients({
     <div className={cn("max-w-4xl mx-auto", className)} {...props}>
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-semibold text-lg font-sourgummy">
-          Ingredients you'll love 🩷
+          Ingredients you&apos;ll love 🩷
         </h2>
         {ingredients.length > 0 && (
           <div className="text-xs font-semibold text-orange-500">

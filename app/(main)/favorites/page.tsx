@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Favorites from "@/views/favorites";
 import ProtectedRoute from "@/components/protected-route";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "My Favorites",
   description: "View and manage your saved MoodMenu favorite recipes.",

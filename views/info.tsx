@@ -15,7 +15,7 @@ const TermsOfUse = () => {
           <CheckCircle className="inline-block pr-2 text-primary" />
           <strong>App Purpose:</strong> MoodMenu provides recipe suggestions
           based on user inputs such as mood, dietary preferences, and cuisine.
-          The app is free to use and provided "as-is."
+          The app is free to use and provided &quot;as-is.&quot;
         </li>
         <li>
           <CheckCircle className="inline-block pr-2 text-primary" />
@@ -185,7 +185,7 @@ const Disclaimer = () => {
       <div className="py-4" id="disclaimer">
         <h2 className="text-2xl font-bold mb-4">Disclaimer</h2>
         <p>
-          This app is provided "as-is" without any guarantees of accuracy or
+          This app is provided &quot;as-is&quot; without any guarantees of accuracy or
           availability. We do not claim ownership of the recipe data or images
           used. All rights remain with their respective owners.
         </p>

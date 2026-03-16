@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Register from "@/views/register";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Register",
   description: "Create your MoodMenu account to personalize and save recipes.",

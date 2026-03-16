@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { sessionAtom } from "@/lib/store";
 import { auth } from "@/lib/firebaseClient";
-import { updateProfile, updatePassword } from "firebase/auth";
+import { updateProfile, updatePassword, Auth } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,10 +26,10 @@ export default function Account() {
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth.currentUser) return;
+    if (!(auth as Auth)?.currentUser) return;
     setLoading(true);
     try {
-      await updateProfile(auth.currentUser, { displayName });
+      await updateProfile((auth as Auth).currentUser!, { displayName });
       toast({ title: "Success", description: "Profile updated successfully" });
     } catch (error: unknown) {
       toast({
@@ -44,10 +44,10 @@ export default function Account() {
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth.currentUser || !newPassword) return;
+    if (!(auth as Auth)?.currentUser || !newPassword) return;
     setLoading(true);
     try {
-      await updatePassword(auth.currentUser, newPassword);
+      await updatePassword((auth as Auth).currentUser!, newPassword);
       setNewPassword("");
       toast({ title: "Success", description: "Password updated successfully" });
     } catch (error: unknown) {
@@ -124,7 +124,7 @@ export default function Account() {
         <Button 
           variant="destructive" 
           className="w-full sm:w-auto flex items-center gap-2"
-          onClick={() => auth.signOut()}
+          onClick={() => (auth as Auth)?.signOut()}
         >
           <LogOut className="w-4 h-4" />
           Sign out

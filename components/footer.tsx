@@ -42,16 +42,15 @@ const Footer = ({ className }: { className?: string }) => {
               <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">Explore</h4>
               <ul className="space-y-2 text-sm text-slate-400">
                 <li><Link href="/" className="hover:text-orange-400 transition-colors">Search</Link></li>
+                <li><Link href="/recipes" className="hover:text-orange-400 transition-colors">Recipes</Link></li>
                 <li><Link href="/favorites" className="hover:text-orange-400 transition-colors">Favorites</Link></li>
-                <li><Link href="/categories" className="hover:text-orange-400 transition-colors">Categories</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
               <h4 className="text-[10px] uppercase tracking-[0.2em] text-orange-300 font-black">Company</h4>
               <ul className="space-y-2 text-sm text-slate-400">
                 <li><Link href="/info" className="hover:text-orange-400 transition-colors">About Us</Link></li>
-                <li><Link href="/privacy" className="hover:text-orange-400 transition-colors">Privacy</Link></li>
-                <li><Link href="/contact" className="hover:text-orange-400 transition-colors">Contact</Link></li>
+                <li><Link href="/" className="hover:text-orange-400 transition-colors">Home</Link></li>
               </ul>
             </div>
           </div>
@@ -86,7 +85,7 @@ const Footer = ({ className }: { className?: string }) => {
           <div className="flex items-center gap-1 text-[11px] text-slate-500">
             <span>Made with</span>
             <Heart size={10} className="text-rose-500 fill-rose-500 animate-pulse" />
-            <span>for food lovers</span>
+            <a href="https://www.themealdb.com/" className="hover:text-orange-400 transition-colors">https://www.themealdb.com/</a>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Sun, Moon, CloudSun, CloudMoon, LucideProps } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,11 +42,7 @@ const Greeting = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
-  const [greeting, setGreeting] = useState<string>("");
-
-  useEffect(() => {
-    setGreeting(getGreeting());
-  }, []);
+  const [greeting, setGreeting] = useState<string>(getGreeting());
 
   return (
     <>

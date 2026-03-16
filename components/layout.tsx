@@ -12,6 +12,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const bottomNavBarRef = useRef<HTMLDivElement | null>(null);
   const [containerHeight, setContainerHeight] = useState(0);
   const [mobileContainerHeight, setMobileContainerHeight] = useState(0);
+  const [bottomBarHeight, setBottomBarHeight] = useState(0);
+  
   const updateHeights = () => {
     if (headerRef.current && footerRef.current) {
       setContainerHeight(
@@ -22,6 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setMobileContainerHeight(
         headerRef.current.offsetHeight - bottomNavBarRef.current.offsetHeight,
       );
+      setBottomBarHeight(bottomNavBarRef.current.offsetHeight);
     }
   };
 
@@ -46,7 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {
             "--outlet-height": `calc(${defaultHeight} - ${containerHeight}px)`,
             "--mobile-outlet-height": `calc(${defaultHeight} - ${mobileContainerHeight}px)`,
-            "--bottom-bar-height": `${bottomNavBarRef.current?.offsetHeight}px`,
+            "--bottom-bar-height": `${bottomBarHeight}px`,
           } as React.CSSProperties
         }
       >

@@ -45,6 +45,14 @@ export function Auth({ children }: PropsWithChildren) {
   useEffect(() => {
     let mounted = true;
 
+    // Only set up auth listeners in browser environment
+    if (!auth) {
+      return;
+    }
+
+    // Track initialization through the auth listener
+    let initialized = false;
+
     // Handle initial redirect result (important for signInWithRedirect)
     getRedirectResult(auth)
       .then((result) => {
@@ -63,12 +71,18 @@ export function Auth({ children }: PropsWithChildren) {
       
       // Keep it "sticky" like in 0e8d222
       if (session?.user && user && session.user.uid === user.uid) {
-        setInitializing(false);
+        if (!initialized) {
+          initialized = true;
+          setInitializing(false);
+        }
         return;
       }
 
       setSession(processInfo(user));
-      setInitializing(false);
+      if (!initialized) {
+        initialized = true;
+        setInitializing(false);
+      }
     });
 
     return () => {

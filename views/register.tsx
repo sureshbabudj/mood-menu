@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { auth } from "@/lib/firebaseClient";
 import { cn } from "@/lib/utils";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, Auth } from "firebase/auth";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ export default function Register() {
       ) {
         throw new Error("validation failed");
       }
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth as Auth, email, password);
     } catch (e: unknown) {
       toast({
         description: getErrorMessage(e, "Failed to register. Please try again."),

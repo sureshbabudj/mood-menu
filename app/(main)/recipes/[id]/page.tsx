@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Recipe from "@/views/recipe";
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 3600; // Revalidate every hour (ISR)
 
 async function fetchRecipeById(id: string) {
   try {

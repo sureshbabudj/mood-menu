@@ -12,7 +12,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, Auth } from "firebase/auth";
 
 const getErrorMessage = (error: unknown, fallback: string) => {
   if (error instanceof Error && error.message) {
@@ -44,7 +44,7 @@ export function SignInWithPassword({
         url: `${host}/auth/forgot-password-success`,
       };
 
-      await sendPasswordResetEmail(auth, email, actionCodeSettings);
+      await sendPasswordResetEmail(auth as Auth, email, actionCodeSettings);
       toast({
         description: "We sent a password reset link to your email.",
         title: "Success:",
@@ -76,7 +76,7 @@ export function SignInWithPassword({
         throw new Error("validation failed");
       }
 
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth as Auth, email, password);
     } catch (e: unknown) {
       toast({
         description: getErrorMessage(e, "Failed to sign in. Please try again."),
@@ -140,7 +140,7 @@ export function GoogleSignIn({
     try {
       const provider = new GoogleAuthProvider();
       // Swapping back to Redirect as per working commit 0e8d222
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(auth as Auth, provider);
     } catch (error: unknown) {
       toast({
         description: getErrorMessage(error, "Failed to sign in. Please try again."),

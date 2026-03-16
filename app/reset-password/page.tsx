@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import ResetPassword from "@/views/reset-password";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Reset Password",
   description: "Set a new password for your MoodMenu account.",

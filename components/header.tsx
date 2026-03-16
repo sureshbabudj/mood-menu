@@ -154,7 +154,7 @@ const Header = ({
                 <DropdownMenuSeparator className="bg-white/5" />
                 <DropdownMenuItem
                   className="text-rose-400 focus:bg-rose-500 focus:text-white cursor-pointer"
-                  onClick={() => auth.signOut()}
+                  onClick={() => auth?.signOut()}
                 >
                   Sign out
                 </DropdownMenuItem>

@@ -15,6 +15,7 @@ import { getRandom } from "@/lib/utils";
 import { Recipe } from "@/orm/recipe.collection";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { ChevronDown, Zap } from "lucide-react";
 
 const getErrorMessage = (error: unknown, fallback: string) => {
@@ -87,8 +88,10 @@ export default function Recipes() {
     const inputCuisine = CuisineEnum.safeParse(cuisine).data;
     if (inputMood && inputDiet && inputCuisine) {
       const ingredientsParsed = getRandom(moods[inputMood], 3);
-      setIngredients(ingredientsParsed);
-      fetchRecipes(ingredientsParsed, inputDiet, inputCuisine);
+      Promise.resolve().then(() => {
+        setIngredients(ingredientsParsed);
+        fetchRecipes(ingredientsParsed, inputDiet, inputCuisine);
+      });
     } else {
       toast({
         title: "Error:",
@@ -122,7 +125,7 @@ export default function Recipes() {
   }, [page, recipes]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950 pb-16">
+    <div className="min-h-screen bg-linear-to-b from-slate-950 via-slate-900/50 to-slate-950 pb-16">
       <div className="container mx-auto max-w-6xl px-4">
         {/* Hero Section */}
         <div className="relative py-12 space-y-4 overflow-hidden">
@@ -135,11 +138,11 @@ export default function Recipes() {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-extrabold text-white tracking-tight">
-              Feeling <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-300 to-orange-400">{mood}?</span>
+              Feeling <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-orange-300 to-orange-400">{mood}?</span>
             </h1>
             
             <p className="text-lg text-slate-300 max-w-2xl">
-              We've found <span className="font-bold text-orange-400">{hotRecipes.length + recipes.length} amazing recipes</span> crafted perfectly for your vibe. Let's get cooking! 🍽️
+              We&apos;ve found <span className="font-bold text-orange-400">{hotRecipes.length + recipes.length} amazing recipes</span> crafted perfectly for your vibe. Let&apos;s get cooking! 🍽️
             </p>
           </div>
         </div>
@@ -164,7 +167,7 @@ export default function Recipes() {
         {current.length > 0 && (
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="h-1 w-12 bg-gradient-to-r from-orange-400 to-orange-300 rounded-full" />
+              <div className="h-1 w-12 bg-linear-to-r from-orange-400 to-orange-300 rounded-full" />
               <h2 className="text-3xl font-semibold font-sourgummy text-white">
                 Featured Recipes
               </h2>
@@ -179,7 +182,7 @@ export default function Recipes() {
             <Button
               onClick={handleLoadMore}
               disabled={isLoadingMore}
-              className="relative group bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-50"
+              className="relative group bg-linear-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-50"
             >
               <span className="flex items-center gap-2">
                 {isLoadingMore ? (
@@ -205,7 +208,7 @@ export default function Recipes() {
             <h3 className="text-2xl font-bold text-white mb-2">No recipes found</h3>
             <p className="text-slate-400 mb-6">Try adjusting your mood or preferences</p>
             <Button asChild className="bg-orange-500 hover:bg-orange-400 text-white rounded-full">
-              <a href="/">Back to Discovery</a>
+              <Link href="/">Back to Discovery</Link>
             </Button>
           </div>
         )}
