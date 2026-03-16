@@ -27,12 +27,25 @@ export default function Home() {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Left Side: Value Prop */}
           <div className="flex-1 text-center lg:text-left space-y-2 sm:space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium animate-bounce-subtle">
+            <div 
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium animate-bounce-subtle"
+              style={{
+                animation: "slide-up-fade 0.5s ease-out forwards",
+                opacity: 0,
+              }}
+            >
               <HandPlatter size={16} />
               <span>Feeling snacky, spicy, or soulful?</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 
+              className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight"
+              style={{
+                animation: "slide-up-fade 0.5s ease-out forwards",
+                opacity: 0,
+                animationDelay: "150ms",
+              }}
+            >
               Feeling{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 to-rose-400">
                 Hungry?
@@ -41,7 +54,14 @@ export default function Home() {
               Let your mood decide.
             </h1>
 
-            <p className="hidden sm:block text-lg text-slate-300 max-w-xl mx-auto lg:mx-0">
+            <p 
+              className="hidden sm:block text-lg text-slate-300 max-w-xl mx-auto lg:mx-0"
+              style={{
+                animation: "slide-up-fade 0.5s ease-out forwards",
+                opacity: 0,
+                animationDelay: "300ms",
+              }}
+            >
               Your mood deserves more than takeout. In seconds, we match your
               vibe to a recipe that gets you. Cook what you’re craving, not just
               what’s trending.
@@ -49,7 +69,14 @@ export default function Home() {
           </div>
 
           {/* Right Side: The Form Card */}
-          <div className="w-full max-w-xl group">
+          <div 
+            className="w-full max-w-xl group"
+            style={{
+              animation: "slide-up-fade 0.6s ease-out forwards",
+              opacity: 0,
+              animationDelay: "450ms",
+            }}
+          >
             <div className="relative transition-all duration-500 group-hover:-translate-y-1">
               {/* Card Glow */}
               <div className="absolute -inset-1 bg-linear-to-r from-orange-500/70 to-rose-500/70 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
@@ -72,13 +99,13 @@ export default function Home() {
                 <RecipeForm className="w-full space-y-4" />
 
                 <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-center gap-4 text-slate-500 text-xs">
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 transition-all duration-300 hover:text-orange-400 hover:scale-110 cursor-pointer">
                     <Smile size={14} /> Happy
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 transition-all duration-300 hover:text-orange-400 hover:scale-110 cursor-pointer">
                     <Smile size={14} className="rotate-180" /> Tired
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 transition-all duration-300 hover:text-orange-400 hover:scale-110 cursor-pointer">
                     <Sparkles size={14} /> Adventurous
                   </span>
                 </div>

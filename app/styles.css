@@ -173,6 +173,11 @@
     animation: none;
     opacity: 0.6;
   }
+
+  /* Home page entrance animations */
+  [style*="animation: slide-up-fade"] {
+    animation-duration: 0.01ms !important;
+  }
 }
 
 @layer base {
