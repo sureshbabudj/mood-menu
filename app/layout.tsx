@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Karla, Sour_Gummy } from "next/font/google";
 
 import { AppProviders } from "./providers";
@@ -56,6 +57,12 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+        <Script
+          src="https://analytics.genaul.com/script.js"
+          data-website-id="c04c21d9-1afc-4b2c-ad05-66a70c2e2eb6"
+          strategy="lazyOnload"
+          async
+        />
       </head>
       <body className={`${karla.variable} ${sourGummy.variable}`}>
         <AppProviders>{children}</AppProviders>
