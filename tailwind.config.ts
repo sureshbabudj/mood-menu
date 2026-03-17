@@ -9,7 +9,7 @@ module.exports = {
     "./orm/**/*.{html,js,ts,tsx,mdx}",
     "./src/**/*.{html,js,ts,tsx,mdx}",
   ],
-  darkMode: ["media", "class"],
+  darkMode: false,
   theme: {
     extend: {
       fontFamily: {

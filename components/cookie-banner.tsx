@@ -250,7 +250,7 @@ const CookieBanner: React.FC = () => {
                   </Button>
                   <Button
                     onClick={handleAcceptAll}
-                    className="text-sm bg-orange-600 hover:bg-orange-700"
+                    className="text-sm text-white bg-orange-600 hover:bg-orange-700"
                   >
                     Accept All
                   </Button>

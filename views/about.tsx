@@ -228,11 +228,9 @@ const About: React.FC = () => {
                 width={24}
                 height={24}
               />
-              <h3 className="text-xl text-white font-bold">Email Us</h3>
+              <h3 className="text-xl font-bold">Email Us</h3>
             </div>
-            <p className="text-muted mb-4">
-              For any queries, feedback, or support:
-            </p>
+            <p className="mb-4">For any queries, feedback, or support:</p>
             <a
               href="mailto:sureshofcbe@gmail.com"
               className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors"
@@ -279,12 +277,6 @@ const About: React.FC = () => {
               Back to Home
             </Link>
           </div>
-        </section>
-
-        {/* Version Info */}
-        <section className="mt-8 text-center text-sm text-muted-foreground">
-          <p>MoodMenu v1.0</p>
-          <p>Last Updated: March 2026</p>
         </section>
       </div>
     </div>

@@ -303,7 +303,7 @@ export function RecipeForm({
           </span>
         </Button>
 
-        <p className="text-center text-[11px] text-slate-500 italic">
+        <p className="text-center text-[11px] text-white/80 italic">
           {formProgress === 3
             ? "🎉 Time to get cooking!"
             : "Matching your mood to the perfect plate..."}
